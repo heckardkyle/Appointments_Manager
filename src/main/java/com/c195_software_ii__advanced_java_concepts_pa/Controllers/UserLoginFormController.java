@@ -10,38 +10,38 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.time.ZoneId;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class UserLoginFormController implements Initializable {
 
     Stage stage;
     Parent scene;
 
-    @FXML
-    private TextField passwordTextField;
+    ResourceBundle rb;
 
-    @FXML
-    private Button signinButton;
+    @FXML private Label     titleLabel;
+    @FXML private Label     userloginLabel;
+    @FXML private Label     timezoneLabel;
+    @FXML private TextField usernameTextField;
+    @FXML private TextField passwordTextField;
+    @FXML private Button    signinButton;
 
-    @FXML
-    private Label timezoneLabel;
-
-    @FXML
-    private Label titleLabel;
-
-    @FXML
-    private Label userloginLabel;
-
-    @FXML
-    private TextField usernameTextField;
-
-    @FXML
-    void onActionSignIn(ActionEvent event) {
+    @FXML void onActionSignIn(ActionEvent event) {
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        rb = ResourceBundle.getBundle("UserLogin", Locale.getDefault());
+        titleLabel.setText(rb.getString("title"));
+        userloginLabel.setText(rb.getString("userLogin"));
+        timezoneLabel.setText(rb.getString("timezone") + ": [" + ZoneId.systemDefault() + "]");
+        usernameTextField.setPromptText(rb.getString("username"));
+        passwordTextField.setPromptText(rb.getString("password"));
+        signinButton.setText(rb.getString("signin"));
     }
 }

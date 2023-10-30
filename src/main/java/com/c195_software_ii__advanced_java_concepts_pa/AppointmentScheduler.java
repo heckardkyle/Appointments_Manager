@@ -7,14 +7,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class AppointmentScheduler extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(AppointmentScheduler.class.getResource("UserLoginForm.fxml"));
+        ResourceBundle rb = ResourceBundle.getBundle("UserLogin", Locale.getDefault());
         Scene scene = new Scene(fxmlLoader.load(), 400, 400);
-        stage.setTitle("Appointment Scheduler");
+        stage.setTitle(rb.getString("title"));
         stage.setScene(scene);
         stage.show();
     }
