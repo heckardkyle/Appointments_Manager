@@ -8,17 +8,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.c195_software_ii__advanced_java_concepts_pa.Controllers.UserLoginFormController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" snapToPixel="false" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.c195_software_ii__advanced_java_concepts_pa.Controllers.UserLoginFormController">
    <children>
-      <VBox prefHeight="400.0" prefWidth="455.0">
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="titleLabel" text="Appointment Scheduler">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <VBox alignment="CENTER" prefHeight="330.0" prefWidth="415.0" spacing="20.0">
+            <VBox alignment="CENTER" fillWidth="false" prefHeight="330.0" prefWidth="415.0" spacing="20.0">
                <children>
                   <Label fx:id="userloginLabel" text="User Login">
                      <font>
@@ -30,7 +29,7 @@
                         <Insets left="50.0" right="50.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="passwordTextField" prefHeight="25.0" prefWidth="376.0" promptText="Password">
+                  <TextField fx:id="passwordTextField" promptText="Password">
                      <VBox.margin>
                         <Insets left="50.0" right="50.0" />
                      </VBox.margin>
