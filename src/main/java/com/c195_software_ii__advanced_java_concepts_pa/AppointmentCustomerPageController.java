@@ -24,7 +24,7 @@ public class AppointmentCustomerPageController implements Initializable {
     Stage stage;
     Parent scene;
 
-    ObservableList<Appointment> tableAppointments = FXCollections.observableArrayList(AppointmentDBImpl.getAllAppointments());
+    ObservableList<Appointment> tableAppointments = FXCollections.observableArrayList();
 
     @FXML private Tab appointmentsTab;
     @FXML private ToggleGroup MonthlyWeeklyTG;
@@ -72,6 +72,8 @@ public class AppointmentCustomerPageController implements Initializable {
 
         try {
 
+            tableAppointments.clear();
+            tableAppointments.setAll(AppointmentDBImpl.getAllAppointments());
             appointmentTableView.setItems(tableAppointments);
 
             appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
@@ -98,6 +100,4 @@ public class AppointmentCustomerPageController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
-
 }
