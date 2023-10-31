@@ -23,7 +23,7 @@ public class Log_Activity {
         printWriter = new PrintWriter(fileWriter);
 
         LocalDate date = LocalDate.now(Clock.systemUTC());
-        LocalTime time = LocalTime.parse(LocalTime.now(Clock.systemUTC()).format(DateTimeFormatter.ofPattern("HH:mm:SS")));
+        LocalTime time = LocalTime.parse(LocalTime.now(Clock.systemUTC()).format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
         printWriter.println(date + " " + time + " Username: " + username + "   " + description);
 

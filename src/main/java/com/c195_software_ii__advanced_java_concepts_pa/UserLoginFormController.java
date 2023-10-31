@@ -1,8 +1,10 @@
 package com.c195_software_ii__advanced_java_concepts_pa;
 
+import com.c195_software_ii__advanced_java_concepts_pa.DAO.JDBC;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.Utilities.Log_Activity;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,10 +12,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class UserLoginFormController implements Initializable {
@@ -31,11 +35,11 @@ public class UserLoginFormController implements Initializable {
     @FXML private Button        signinButton;
 
     public class UsernameEmptyException extends Exception {
-        public UsernameEmptyException() { super(); } }
+        public UsernameEmptyException() {} }
     public class PasswordEmptyException extends Exception {
-        public PasswordEmptyException() { super(); } }
+        public PasswordEmptyException() {} }
     public class IncorrectCredentialsException extends Exception {
-        public IncorrectCredentialsException() { super(); } }
+        public IncorrectCredentialsException() {} }
 
 
     @FXML void onActionSignIn(ActionEvent event) throws Exception {
@@ -47,11 +51,31 @@ public class UserLoginFormController implements Initializable {
 
                 Log_Activity.LogActivity(usernameTextField.getText(), "Successfully Logged In");
 
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("AppointmentCustomerPage.fxml"));
+                loader.load();
+
+                AppointmentCustomerPageController controller = loader.getController();
+                controller.FreshUserLogin();
+
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
+                Parent scene = loader.getRoot();
                 stage.setScene(new Scene(scene));
                 stage.show();
-                System.out.println("success");
+
+                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to log out and close the program?");
+
+                        Optional<ButtonType> result = alert.showAndWait();
+
+                        if (result.isPresent() && result.get() == ButtonType.OK) {
+                            JDBC.closeConnection();
+                            System.exit(0);
+                        }
+                    }
+                });
             }
             else { throw new IncorrectCredentialsException(); }
         }

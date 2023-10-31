@@ -2,3 +2,15 @@
 12/30/2019 11:59:59 Username: asdfa   Invalid Credentials
 2023-10-31 16:06:14.897098 Username: asdf   Invalid Credentials
 2023-10-31 16:10:58 Username: asdf   Invalid Credentials
+2023-10-31 17:02:22 Username: test   Successfully Logged In
+2023-10-31 17:02:02 Username: test   Successfully Logged In
+2023-10-31 17:03:37 Username: test   Successfully Logged In
+2023-10-31 17:07:40 Username: test   Successfully Logged In
+2023-10-31 17:10:36 Username: test   Successfully Logged In
+2023-10-31 17:18:05 Username: test   Successfully Logged In
+2023-10-31 17:31:14 Username: temp   Invalid Credentials
+2023-10-31 17:31:24 Username: temp   Invalid Credentials
+2023-10-31 17:31:34 Username: temp   Invalid Credentials
+2023-10-31 17:31:42 Username: admin   Successfully Logged In
+2023-10-31 17:32:22 Username: temp   Invalid Credentials
+2023-10-31 17:32:32 Username: test   Successfully Logged In
