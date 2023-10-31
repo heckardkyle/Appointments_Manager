@@ -49,7 +49,7 @@ public class AppointmentDBImpl {
                                             Timestamp start, Timestamp end, int customerID, int userID, int contactID) {
 
         try{
-            String sqlCreate = "INSERT INTO Appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) "
+            String sqlCreate = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             preparedStatement = JDBC.connection.prepareStatement(sqlCreate);
