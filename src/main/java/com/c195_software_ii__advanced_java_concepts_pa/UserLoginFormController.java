@@ -1,6 +1,7 @@
 package com.c195_software_ii__advanced_java_concepts_pa;
 
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
+import com.c195_software_ii__advanced_java_concepts_pa.Utilities.Log_Activity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +45,8 @@ public class UserLoginFormController implements Initializable {
 
             if (UserDBImpl.GetUser(usernameTextField.getText(), passwordField.getText()) != null) {
 
+                Log_Activity.LogActivity(usernameTextField.getText(), "Successfully Logged In");
+
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
                 stage.setScene(new Scene(scene));
@@ -65,6 +68,8 @@ public class UserLoginFormController implements Initializable {
             alert.showAndWait();
         }
         catch (IncorrectCredentialsException e3) {
+            Log_Activity.LogActivity(usernameTextField.getText(), "Invalid Credentials");
+
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle(rb.getString("loginError"));
             alert.setContentText(rb.getString("incorrectCredentials"));
