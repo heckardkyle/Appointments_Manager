@@ -3,6 +3,7 @@ package com.c195_software_ii__advanced_java_concepts_pa;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.JDBC;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.Utilities.Log_Activity;
+import com.c195_software_ii__advanced_java_concepts_pa.Utilities.LoginAlert;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -51,15 +52,10 @@ public class UserLoginFormController implements Initializable {
 
                 Log_Activity.LogActivity(usernameTextField.getText(), "Successfully Logged In");
 
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("AppointmentCustomerPage.fxml"));
-                loader.load();
-
-                AppointmentCustomerPageController controller = loader.getController();
-                controller.FreshUserLogin();
+                LoginAlert.LoginAlert();
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                Parent scene = loader.getRoot();
+                scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
                 stage.setScene(new Scene(scene));
                 stage.show();
 

@@ -3,8 +3,19 @@ package com.c195_software_ii__advanced_java_concepts_pa.DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+/**
+ * Retrieved from the WGU CI Software Team Resource C195 Code Repository and amended for the
+ * purposes of this project.
+ */
 
+/**
+ * Class for establishing a connection to a database.
+ * @author Kyle Heckard
+ * @version 1.0
+ */
 public abstract class JDBC {
+
+    /* --Declarations-- */
 
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -16,6 +27,11 @@ public abstract class JDBC {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+
+    /**
+     * Opens a connection to the database
+     * @return <code>connection</code>
+     */
     public static Connection openConnection()
     {
         try {
@@ -29,10 +45,18 @@ public abstract class JDBC {
         return connection;
     }
 
+
+    /**
+     * Gets connection for sql query's
+     * @return <code>connection</code>
+     */
     public static Connection getConnection() {
         return connection;
     }
 
+    /**
+     * Closes connection to the database
+     */
     public static void closeConnection() {
         try {
             connection.close();

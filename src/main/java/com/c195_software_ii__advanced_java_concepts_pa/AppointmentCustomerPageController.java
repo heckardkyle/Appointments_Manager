@@ -6,22 +6,17 @@ import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.w3c.dom.events.MouseEvent;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
+
 import java.util.ResourceBundle;
 
 public class AppointmentCustomerPageController implements Initializable {
@@ -29,7 +24,7 @@ public class AppointmentCustomerPageController implements Initializable {
     Stage stage;
     Parent scene;
 
-    boolean freshUserLogin = false;
+    ObservableList<Appointment> tableAppointments = FXCollections.observableArrayList(AppointmentDBImpl.getAllAppointments());
 
     @FXML private Tab appointmentsTab;
     @FXML private ToggleGroup MonthlyWeeklyTG;
@@ -58,8 +53,7 @@ public class AppointmentCustomerPageController implements Initializable {
     @FXML private Button updateCustomerButton;
     @FXML private Button deleteCustomerButton;
 
-    public void FreshUserLogin() {
-        freshUserLogin = true;
+    public AppointmentCustomerPageController() throws SQLException {
     }
 
     public void onMouseTableClick(javafx.scene.input.MouseEvent mouseEvent) {
@@ -76,13 +70,9 @@ public class AppointmentCustomerPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        if (freshUserLogin) {
-            //Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            //alert.setContentText("No Product selected to modify");
-            //alert.showAndWait();
-        }
         try {
-            appointmentTableView.setItems(AppointmentDBImpl.getAllAppointments());
+
+            appointmentTableView.setItems(tableAppointments);
 
             appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
             titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
