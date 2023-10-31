@@ -21,12 +21,12 @@ public class CustomerDBImpl {
         result = preparedStatement.executeQuery();
 
         while (result.next()) {
-            int       customerID = result.getInt("Appointment_ID");
-            String    customerName         = result.getString("Title");
-            String    address   = result.getString("Description");
-            String    postalCode      = result.getString("Location");
-            String    phone          = result.getString("Type");
-            int       divisionID    = result.getInt("Customer_ID");
+            int       customerID   = result.getInt("Customer_ID");
+            String    customerName = result.getString("Customer_Name");
+            String    address      = result.getString("Address");
+            String    postalCode   = result.getString("Postal_Code");
+            String    phone        = result.getString("Phone");
+            int       divisionID   = result.getInt("Division_ID");
 
             customer = new Customer(customerID,customerName,address,postalCode,phone,divisionID);
             allCustomers.add(customer);
