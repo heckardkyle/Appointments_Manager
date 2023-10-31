@@ -13,6 +13,9 @@ package com.c195_software_ii__advanced_java_concepts_pa.Models;
  * @see com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl
  */
 public class User {
+
+    /* --Members-- */
+
     private int    userID;
     private String userName;
 
@@ -28,17 +31,14 @@ public class User {
         this.userName = userName;
     }
 
-    public User(User user) {
-        this.userID = user.userID;
-        this.userName = user.userName;
-    }
-
     /* --Getters-- */
 
-    /** @return <code>userID</code> */
+    /** Gets the userID.
+     *  @return <code>userID</code> */
     public int getUserID() { return userID; }
 
-    /** @return <code>userName</code> */
+    /** Gets the userName.
+     *  @return <code>userName</code> */
     public String getUserName() { return userName; }
 
     /*  --Setters-- */

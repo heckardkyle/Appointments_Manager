@@ -1,6 +1,5 @@
 package com.c195_software_ii__advanced_java_concepts_pa.Models;
 
-
 import java.sql.Timestamp;
 
 /**
@@ -18,6 +17,9 @@ import java.sql.Timestamp;
  * @see com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl
  */
 public class Appointment {
+
+    /* --Members-- */
+
     private int       appointmentID;
     private String    title;
     private String    description;
@@ -28,6 +30,8 @@ public class Appointment {
     private int       customerID;
     private int       userID;
     private int       contactID;
+
+    /* --Constructors-- */
 
     /**
      * Default Constructor for Appointment objects
@@ -57,34 +61,44 @@ public class Appointment {
 
     /* --Getters-- */
 
-    /** @return <code>appointmentID</code> */
+    /** Gets appointmentID.
+     *  @return <code>appointmentID</code> */
     public int getAppointmentID() { return appointmentID; }
 
-    /** @return <code>title</code> */
+    /** Gets appointment title.
+     *  @return <code>title</code> */
     public String getTitle() { return title; }
 
-    /** @return <code>description</code> */
+    /** Gets appointment description.
+     *  @return <code>description</code> */
     public String getDescription() { return description; }
 
-    /** @return <code>location</code> */
+    /** Gets appointment location.
+     *  @return <code>location</code> */
     public String getLocation() { return location; }
 
-    /** @return <code>type</code> */
+    /** Gets appointment type.
+     *  @return <code>type</code> */
     public String getType() { return type; }
 
-    /** @return <code>startTime</code> */
+    /** Gets appointment startTime.
+     *  @return <code>startTime</code> */
     public Timestamp getStartTime() { return startTime; }
 
-    /** @return <code>endTime</code> */
+    /** Gets appointment endTime.
+     *  @return <code>endTime</code> */
     public Timestamp getEndTime() { return endTime; }
 
-    /** @return <code>customerID</code> */
+    /** Gets customerID associated with the appointment.
+     *  @return <code>customerID</code> */
     public int getCustomerID() { return customerID; }
 
-    /** @return <code>userID</code> */
+    /** Gets userID associated with the appointment.
+     *  @return <code>userID</code> */
     public int getUserID() { return userID; }
 
-    /** Returns: <code>contactID</code> */
+    /** Gets contactID associate with the appointment.
+     *  @return <code>contactID</code> */
     public int getContactID() { return contactID; }
 
     /* --Setters-- */

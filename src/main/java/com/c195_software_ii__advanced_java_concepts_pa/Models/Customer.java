@@ -14,6 +14,9 @@ package com.c195_software_ii__advanced_java_concepts_pa.Models;
  * @see com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl
  */
 public class Customer {
+
+    /* --Members-- */
+
     private int    customerID;
     private String customerName;
     private String address;
@@ -43,22 +46,28 @@ public class Customer {
 
     /* --Getters-- */
 
-    /** @return <code>customerID</code> */
+    /** Gets the customerID.
+     *  @return <code>customerID</code> */
     public int getCustomerID() { return customerID; }
 
-    /** @return <code>customerName</code> */
+    /** Gets the customerName.
+     *  @return <code>customerName</code> */
     public String getCustomerName() { return customerName; }
 
-    /** @return <code>address</code> */
+    /** Gets the Customer's address.
+     *  @return <code>address</code> */
     public String getAddress() { return address; }
 
-    /** @return <code>postalCode</code> */
+    /** Gets the Customer's postalCode.
+     *  @return <code>postalCode</code> */
     public String getPostalCode() { return postalCode; }
 
-    /** @return <code>phoneNumber</code> */
+    /** Gets the Customer's phoneNumber.
+     *  @return <code>phoneNumber</code> */
     public String getPhoneNumber() { return phoneNumber; }
 
-    /** @return <code>divisionID</code> */
+    /** Gets the Customer's divisionID.
+     *  @return <code>divisionID</code> */
     public int getDivisionID() { return divisionID; }
 
     /* --Setters-- */

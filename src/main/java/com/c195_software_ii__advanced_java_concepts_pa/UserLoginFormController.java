@@ -23,11 +23,14 @@ import java.util.ResourceBundle;
 
 public class UserLoginFormController implements Initializable {
 
+    /** Stage Declarations */
     Stage  stage;
     Parent scene;
 
+    /** Language Resource Bundle Declarations */
     ResourceBundle rb;
 
+    /** User Login Page FXML Declarations */
     @FXML private Label         titleLabel;
     @FXML private Label         userloginLabel;
     @FXML private Label         timezoneLabel;
@@ -35,10 +38,25 @@ public class UserLoginFormController implements Initializable {
     @FXML private PasswordField passwordField;
     @FXML private Button        signinButton;
 
+    /** Exception Declarations */
+    /**
+     * Declares 'UsernameEmptyException'.
+     * Thrown if usernameTextField is empty.
+     */
     public class UsernameEmptyException extends Exception {
         public UsernameEmptyException() {} }
+
+    /**
+     * Declares 'PasswordEmptyException'.
+     * Thrown if passwordField is empty.
+     */
     public class PasswordEmptyException extends Exception {
         public PasswordEmptyException() {} }
+
+    /**
+     * Declares 'IncorrectCredentialsException'.
+     * Thrown if username and password do not have a match.
+     */
     public class IncorrectCredentialsException extends Exception {
         public IncorrectCredentialsException() {} }
 
@@ -98,7 +116,12 @@ public class UserLoginFormController implements Initializable {
     }
 
 
-
+    /**
+     * Initializes Stage and Scene.
+     * Detects System language and changes language of text boxes and labels.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
