@@ -1,6 +1,8 @@
 package com.c195_software_ii__advanced_java_concepts_pa.Models;
 
 
+import java.sql.Timestamp;
+
 /**
  * Class for creating Appointment objects.
  * Appointment objects are used for displaying in a tableview on the appointments screen for user to view.
@@ -16,35 +18,41 @@ package com.c195_software_ii__advanced_java_concepts_pa.Models;
  * @see com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl
  */
 public class Appointment {
-    private int    appointmentID;
-    private String title;
-    private String description;
-    private String type;
-    private String startTime;
-    private String endTime;
-    private int    customerID;
-    private int    userID;
+    private int       appointmentID;
+    private String    title;
+    private String    description;
+    private String    location;
+    private String    type;
+    private Timestamp startTime;
+    private Timestamp endTime;
+    private int       customerID;
+    private int       userID;
+    private int       contactID;
 
     /**
      * Default Constructor for Appointment objects
      * @param appointmentID the appointmentID to be set
      * @param title         the appointment title to be set
      * @param description   the appointment description to be set
+     * @param location      the location to be set
      * @param type          the appointment type to be set
      * @param startTime     the appointment start time to be set
      * @param endTime       the appointment end time to be set
      * @param customerID    the associated customerID to be set
      * @param userID        the associated userID to be set
+     * @param contactID     the associated contactID to be set
      */
-    public Appointment(int appointmentID, String title, String description, String type, String startTime, String endTime, int customerID, int userID) {
+    public Appointment(int appointmentID, String title, String description, String location, String type, Timestamp startTime, Timestamp endTime, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title         = title;
         this.description   = description;
+        this.location      = location;
         this.type          = type;
         this.startTime     = startTime;
         this.endTime       = endTime;
         this.customerID    = customerID;
         this.userID        = userID;
+        this.contactID     = contactID;
     }
 
     /* --Getters-- */
@@ -58,20 +66,26 @@ public class Appointment {
     /** @return <code>description</code> */
     public String getDescription() { return description; }
 
+    /** @return <code>location</code> */
+    public String getLocation() { return location; }
+
     /** @return <code>type</code> */
     public String getType() { return type; }
 
     /** @return <code>startTime</code> */
-    public String getStartTime() { return startTime; }
+    public Timestamp getStartTime() { return startTime; }
 
     /** @return <code>endTime</code> */
-    public String getEndTime() { return endTime; }
+    public Timestamp getEndTime() { return endTime; }
 
     /** @return <code>customerID</code> */
     public int getCustomerID() { return customerID; }
 
     /** @return <code>userID</code> */
     public int getUserID() { return userID; }
+
+    /** Returns: <code>contactID</code> */
+    public int getContactID() { return contactID; }
 
     /* --Setters-- */
 
@@ -84,18 +98,24 @@ public class Appointment {
     /** @param description the appointment description to be set */
     public void setDescription(String description) { this.description = description; }
 
+    /** @param location the appointment location to be set */
+    public void setLocation(String location) { this.location = location; }
+
     /** @param type the appointment type to be set */
     public void setType(String type) { this.type = type; }
 
     /** @param startTime the appointment start time to be set */
-    public void setStartTime(String startTime) { this.startTime = startTime; }
+    public void setStartTime(Timestamp startTime) { this.startTime = startTime; }
 
     /** @param endTime the appointment end time to be set */
-    public void setEndTime(String endTime) { this.endTime = endTime; }
+    public void setEndTime(Timestamp endTime) { this.endTime = endTime; }
 
     /** @param customerID the customerID to associate with the appointment */
     public void setCustomerID(int customerID) { this.customerID = customerID; }
 
     /** @param userID the userID to associate with the appointment */
     public void setUserID(int userID) { this.userID = userID; }
+
+    /** @param contactID the contactID to associate with the appointment */
+    public void setContactID(int contactID) { this.contactID = contactID; }
 }
