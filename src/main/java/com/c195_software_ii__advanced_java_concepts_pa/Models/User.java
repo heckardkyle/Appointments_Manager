@@ -15,7 +15,6 @@ package com.c195_software_ii__advanced_java_concepts_pa.Models;
 public class User {
     private int    userID;
     private String userName;
-    private String password;
 
     /* --Constructors-- */
 
@@ -23,12 +22,15 @@ public class User {
      * Default constructor for User object
      * @param userID   the userID to be set
      * @param userName the userName to be set
-     * @param password the password to be set
      */
-    public User(int userID, String userName, String password) {
+    public User(int userID, String userName) {
         this.userID   = userID;
         this.userName = userName;
-        this.password = password;
+    }
+
+    public User(User user) {
+        this.userID = user.userID;
+        this.userName = user.userName;
     }
 
     /* --Getters-- */
@@ -39,9 +41,6 @@ public class User {
     /** @return <code>userName</code> */
     public String getUserName() { return userName; }
 
-    /** @return <code>password</code> */
-    public String getPassword() { return password; }
-
     /*  --Setters-- */
 
     /** @param userID the userID to set */
@@ -49,7 +48,4 @@ public class User {
 
     /** @param userName the userName to set */
     public void setUserName(String userName) { this.userName = userName; }
-
-    /** @param password the password to set */
-    public void setPassword(String password) { this.password = password; }
 }
