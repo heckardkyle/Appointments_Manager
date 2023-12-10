@@ -93,7 +93,7 @@ public class AppointmentCustomerPageController implements Initializable {
 
     @FXML void onActionCreateNewAppointment(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("CreateAppointment.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("AddAppointment.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
