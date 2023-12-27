@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="188.0" layoutY="49.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -45,35 +44,35 @@
               </rowConstraints>
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Appointment ID:" />
-                  <TextField disable="true" promptText="appointment ID" GridPane.columnIndex="1" />
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Cancel" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-                  <Button mnemonicParsing="false" text="Create Appointment" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+                  <TextField fx:id="appointmentIDTextField" disable="true" promptText="appointment ID" GridPane.columnIndex="1" />
+                  <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Cancel" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                  <Button fx:id="createAppointmentButton" mnemonicParsing="false" text="Create Appointment" GridPane.columnIndex="3" GridPane.rowIndex="9" />
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Description:" GridPane.rowIndex="6" />
                   <Label text="Customer Name:" GridPane.rowIndex="1" />
-                  <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="7" GridPane.rowSpan="2">
+                  <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="7" GridPane.rowSpan="2">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextArea>
-                  <TextField promptText="Customer Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="customerNameTextField" promptText="Customer Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Type:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField promptText="Type" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <TextField fx:id="typeTextField" promptText="Type" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <Label text="Start Date:" GridPane.rowIndex="4" />
-                  <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <DatePicker fx:id="startDateDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="End Date:" GridPane.rowIndex="5" />
-                  <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <DatePicker fx:id="endDateDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label text="Start Time:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <Label text="End Time" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <ChoiceBox fx:id="startTimeChoiceBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <ChoiceBox fx:id="endTimeChoiceBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                   <Label text="Contact:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <ChoiceBox fx:id="contactChoiceBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                   <Label text="Customer ID:" GridPane.rowIndex="2" />
-                  <TextField promptText="Customer ID" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="customerIDTextField" promptText="Customer ID" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="User ID:" GridPane.rowIndex="3" />
-                  <TextField promptText="User ID" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="userIDTextField" promptText="User ID" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="Location:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <TextField promptText="Location" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <TextField fx:id="locationTextField" promptText="Location" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>
