@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="408.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="408.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.c195_software_ii__advanced_java_concepts_pa.UpdateCustomerController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="188.0" layoutY="49.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -41,8 +41,8 @@
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Customer ID:" GridPane.columnIndex="1" />
                   <TextField fx:id="customerIDTextField" disable="true" promptText="Customer ID" GridPane.columnIndex="2" />
-                  <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
-                  <Button fx:id="updateCustomerButton" mnemonicParsing="false" text="Update Customer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+                  <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+                  <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#onActionUpdateCustomer" text="Update Customer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
                   <Label text="Customer Name:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="customerNameTextField" promptText="Customer Name" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label text="Country:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
