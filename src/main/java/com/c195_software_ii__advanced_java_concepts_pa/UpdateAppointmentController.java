@@ -18,20 +18,20 @@ public class UpdateAppointmentController implements Initializable {
     Stage stage;
     Parent scene;
 
-    @FXML private TextField appointmentIDTextField;
-    @FXML private Button cancelButton;
+    @FXML private TextField    appointmentIDTextField;
+    @FXML private Button       cancelButton;
     @FXML private ChoiceBox<?> contactChoiceBox;
-    @FXML private TextField customerIDTextField;
-    @FXML private TextField customerNameTextField;
-    @FXML private TextArea descriptionTextArea;
-    @FXML private DatePicker endDateDatePicker;
+    @FXML private TextField    customerIDTextField;
+    @FXML private TextField    customerNameTextField;
+    @FXML private TextArea     descriptionTextArea;
+    @FXML private DatePicker   endDateDatePicker;
     @FXML private ChoiceBox<?> endTimeChoiceBox;
-    @FXML private TextField locationTextField;
-    @FXML private DatePicker startDateDatePicker;
+    @FXML private TextField    locationTextField;
+    @FXML private DatePicker   startDateDatePicker;
     @FXML private ChoiceBox<?> startTimeChoiceBox;
-    @FXML private TextField typeTextField;
-    @FXML private Button updateAppointmentButton;
-    @FXML private TextField userIDTextField;
+    @FXML private TextField    typeTextField;
+    @FXML private Button       updateAppointmentButton;
+    @FXML private TextField    userIDTextField;
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
@@ -49,7 +49,8 @@ public class UpdateAppointmentController implements Initializable {
         stage.show();
     }
 
-    @Override public void initialize(URL url, ResourceBundle resourceBundle) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 }

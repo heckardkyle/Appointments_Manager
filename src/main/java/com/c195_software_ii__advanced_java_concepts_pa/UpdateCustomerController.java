@@ -20,14 +20,14 @@ public class UpdateCustomerController implements Initializable {
     Stage stage;
     Parent scene;
 
-    @FXML private TextField addressTextField;
-    @FXML private Button cancelButton;
+    @FXML private TextField   addressTextField;
+    @FXML private Button      cancelButton;
     @FXML private ComboBox<?> countryChoiceBox;
-    @FXML private TextField customerIDTextField;
-    @FXML private TextField customerNameTextField;
-    @FXML private TextField phoneNumberTextField;
+    @FXML private TextField   customerIDTextField;
+    @FXML private TextField   customerNameTextField;
+    @FXML private TextField   phoneNumberTextField;
     @FXML private ComboBox<?> stateChoiceBox;
-    @FXML private Button updateCustomerButton;
+    @FXML private Button      updateCustomerButton;
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
@@ -45,7 +45,8 @@ public class UpdateCustomerController implements Initializable {
         stage.show();
     }
 
-    @Override public void initialize(URL url, ResourceBundle resourceBundle) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 }

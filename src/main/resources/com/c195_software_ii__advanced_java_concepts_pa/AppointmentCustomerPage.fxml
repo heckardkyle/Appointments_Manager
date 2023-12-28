@@ -29,11 +29,11 @@
                            <children>
                               <HBox alignment="CENTER" maxHeight="40.0" minHeight="40.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                  <children>
-                                    <ToggleButton fx:id="monthlyViewButton" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" mnemonicParsing="false" selected="true" text="Monthly View">
+                                    <ToggleButton fx:id="monthlyViewButton" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" mnemonicParsing="false" onAction="#onActionMonthlyViewButton" selected="true" text="Monthly View">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="MonthlyWeeklyTG" />
                                        </toggleGroup></ToggleButton>
-                                    <ToggleButton fx:id="weeklyViewButton" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" mnemonicParsing="false" text="Weekly View" toggleGroup="$MonthlyWeeklyTG" />
+                                    <ToggleButton fx:id="weeklyViewButton" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" mnemonicParsing="false" onAction="#onActionWeeklyViewButton" text="Weekly View" toggleGroup="$MonthlyWeeklyTG" />
                                     <Label fx:id="weekMonthLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="25.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" text="Week/Month Placeholder">
                                        <opaqueInsets>
                                           <Insets />

@@ -20,13 +20,13 @@ public class AddCustomerController implements Initializable {
     Stage stage;
     Parent scene;
 
-    @FXML private Button addCustomerButton;
-    @FXML private TextField addressTextField;
-    @FXML private Button cancelButton;
+    @FXML private Button      addCustomerButton;
+    @FXML private TextField   addressTextField;
+    @FXML private Button      cancelButton;
     @FXML private ComboBox<?> countryChoiceBox;
-    @FXML private TextField customerIDTextField;
-    @FXML private TextField customerNameTextField;
-    @FXML private TextField phoneNumberTextField;
+    @FXML private TextField   customerIDTextField;
+    @FXML private TextField   customerNameTextField;
+    @FXML private TextField   phoneNumberTextField;
     @FXML private ComboBox<?> stateChoiceBox;
 
     @FXML
@@ -45,7 +45,8 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
-    @Override public void initialize(URL url, ResourceBundle resourceBundle) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 }

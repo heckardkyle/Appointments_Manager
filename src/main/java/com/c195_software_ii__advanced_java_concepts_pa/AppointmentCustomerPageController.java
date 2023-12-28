@@ -76,11 +76,22 @@ public class AppointmentCustomerPageController implements Initializable {
     @FXML private Button deleteCustomerButton;
     @FXML private Button customerLogoutButton;
 
+    @FXML
+    void onActionMonthlyViewButton(ActionEvent event) {
+        monthlyViewButton.setSelected(true);
+    }
+
+    @FXML
+    void onActionWeeklyViewButton(ActionEvent event) {
+        weeklyViewButton.setSelected(true);
+    }
+
     /**
      * Enables and disables appointment update and delete buttons if there's an active selection or not.
      * @param event Mouse click event
      */
-    @FXML public void onMouseTableClick(MouseEvent event) {
+    @FXML
+    public void onMouseTableClick(MouseEvent event) {
         if (!(appointmentTableView.getSelectionModel().getSelectedCells().isEmpty())) {
             updateAppointmentButton.setDisable(false);
             deleteAppointmentButton.setDisable(false);
@@ -91,25 +102,29 @@ public class AppointmentCustomerPageController implements Initializable {
         }
     }
 
-    @FXML void onActionCreateNewAppointment(ActionEvent event) throws IOException {
+    @FXML
+    void onActionCreateNewAppointment(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("AddAppointment.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
-    @FXML void onActionUpdateAppointment(ActionEvent event) throws IOException {
+    @FXML
+    void onActionUpdateAppointment(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("UpdateAppointment.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
-    @FXML void onActionDeleteAppointment(ActionEvent event) {
+    @FXML
+    void onActionDeleteAppointment(ActionEvent event) {
 
     }
 
-    @FXML void onActionAppointmentLogout(ActionEvent event) throws IOException {
+    @FXML
+    void onActionAppointmentLogout(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to logout?");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -127,7 +142,8 @@ public class AppointmentCustomerPageController implements Initializable {
      * Enables and disables customer update and delete buttons if there's an active selection or not.
      * @param event Mouse click event
      */
-    @FXML public void onMouseListClick(MouseEvent event) {
+    @FXML
+    public void onMouseListClick(MouseEvent event) {
         if (!(customerTableView.getSelectionModel().getSelectedItems().isEmpty())) {
             updateCustomerButton.setDisable(false);
             deleteCustomerButton.setDisable(false);
@@ -138,25 +154,29 @@ public class AppointmentCustomerPageController implements Initializable {
         }
     }
 
-    @FXML void onActionAddCustomer(ActionEvent event) throws IOException {
+    @FXML
+    void onActionAddCustomer(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("AddCustomer.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
-    @FXML void onActionUpdateCustomer(ActionEvent event) throws IOException {
+    @FXML
+    void onActionUpdateCustomer(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("UpdateCustomer.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
-    @FXML void onActionDeleteCustomer(ActionEvent event) {
+    @FXML
+    void onActionDeleteCustomer(ActionEvent event) {
 
     }
 
-    @FXML void onActionCustomerLogout(ActionEvent event) throws IOException {
+    @FXML
+    void onActionCustomerLogout(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to logout?");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -169,7 +189,8 @@ public class AppointmentCustomerPageController implements Initializable {
         }
     }
 
-    @Override public void initialize(URL url, ResourceBundle resourceBundle) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
 

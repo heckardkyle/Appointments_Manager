@@ -5,7 +5,6 @@ import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.Utilities.Log_Activity;
 import com.c195_software_ii__advanced_java_concepts_pa.Utilities.LoginAlert;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.net.URL;
 import java.time.ZoneId;
@@ -61,7 +59,8 @@ public class UserLoginFormController implements Initializable {
         public IncorrectCredentialsException() {} }
 
 
-    @FXML void onActionSignIn(ActionEvent event) throws Exception {
+    @FXML
+    void onActionSignIn(ActionEvent event) throws Exception {
         try {
             if (usernameTextField.getText().isEmpty()) { throw new UsernameEmptyException(); }
             if (passwordField.getText().isEmpty()) { throw new PasswordEmptyException(); }
@@ -77,17 +76,16 @@ public class UserLoginFormController implements Initializable {
                 stage.setScene(new Scene(scene));
                 stage.show();
 
-                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent event) {
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to log out and close the program?");
+                // lambda 1
+                // After sign on, prompts user to confirm exit when X button is pressed.
+                stage.setOnCloseRequest(event1 -> {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, rb.getString("exitPressed"));
 
-                        Optional<ButtonType> result = alert.showAndWait();
+                    Optional<ButtonType> result = alert.showAndWait();
 
-                        if (result.isPresent() && result.get() == ButtonType.OK) {
-                            JDBC.closeConnection();
-                            System.exit(0);
-                        }
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        JDBC.closeConnection();
+                        System.exit(0);
                     }
                 });
             }

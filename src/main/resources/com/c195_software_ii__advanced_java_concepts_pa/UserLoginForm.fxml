@@ -31,7 +31,7 @@
                      </VBox.margin>
                   </TextField>
                   <PasswordField fx:id="passwordField" promptText="Password" />
-                  <Button fx:id="signinButton" mnemonicParsing="false" onAction="#onActionSignIn" text="sign in" />
+                  <Button fx:id="signinButton" defaultButton="true" mnemonicParsing="false" onAction="#onActionSignIn" text="sign in" />
                   <Label fx:id="timezoneLabel" alignment="TOP_LEFT" text="time zone placeholder">
                      <VBox.margin>
                         <Insets top="20.0" />
