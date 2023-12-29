@@ -12,6 +12,11 @@ import java.util.ResourceBundle;
 
 public class AppointmentScheduler extends Application {
 
+    /**
+     * Starts application
+     * @param stage to set up scene
+     * @throws IOException Generic exception
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(AppointmentScheduler.class.getResource("UserLoginForm.fxml"));
@@ -22,6 +27,11 @@ public class AppointmentScheduler extends Application {
         stage.show();
     }
 
+    /**
+     * Opens Connection with database and launches application.
+     * Closes Connection with database upon ending application.
+     * @param args
+     */
     public static void main(String[] args) {
         JDBC.openConnection();
         launch();

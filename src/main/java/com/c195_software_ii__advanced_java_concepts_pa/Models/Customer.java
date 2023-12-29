@@ -72,21 +72,27 @@ public class Customer {
 
     /* --Setters-- */
 
-    /** @param customerID the customerID to be set */
+    /** Sets the customerID.
+     *  @param customerID the customerID to be set */
     public void setCustomerID(int customerID) { this.customerID = customerID; }
 
-    /** @param customerName the customerName to be set */
+    /** Sets the customerName.
+     *  @param customerName the customerName to be set */
     public void setCustomerName(String customerName) { this.customerName = customerName; }
 
-    /** @param address the customers address to be set */
+    /** Sets the Customer's address.
+     *  @param address the customers address to be set */
     public void setAddress(String address) { this.address = address; }
 
-    /** @param postalCode the customers postalCode to be set */
+    /** Sets the Customer's postalCode.
+     *  @param postalCode the customers postalCode to be set */
     public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
 
-    /** @param phoneNumber the customers phoneNumber to be set */
+    /** Sets the Customer's phoneNumber.
+     *  @param phoneNumber the customers phoneNumber to be set */
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    /** @param divisionID the customers divisionID to be set */
+    /** Sets the Customer's divisionID.
+     *  @param divisionID the customers divisionID to be set */
     public void setDivisionID(int divisionID) { this.divisionID = divisionID; }
 }

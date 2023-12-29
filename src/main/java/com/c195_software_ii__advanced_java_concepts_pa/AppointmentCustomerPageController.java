@@ -2,6 +2,7 @@ package com.c195_software_ii__advanced_java_concepts_pa;
 
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl;
+import com.c195_software_ii__advanced_java_concepts_pa.DAO.JDBC;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Customer;
 import javafx.collections.FXCollections;
@@ -78,12 +79,12 @@ public class AppointmentCustomerPageController implements Initializable {
 
     @FXML
     void onActionMonthlyViewButton(ActionEvent event) {
-        monthlyViewButton.setSelected(true);
+        monthlyViewButton.setSelected(true); // Prevents button from being unclicked
     }
 
     @FXML
     void onActionWeeklyViewButton(ActionEvent event) {
-        weeklyViewButton.setSelected(true);
+        weeklyViewButton.setSelected(true); // Prevents button from being unclicked
     }
 
     /**
@@ -92,11 +93,11 @@ public class AppointmentCustomerPageController implements Initializable {
      */
     @FXML
     public void onMouseTableClick(MouseEvent event) {
-        if (!(appointmentTableView.getSelectionModel().getSelectedCells().isEmpty())) {
+        if (!(appointmentTableView.getSelectionModel().getSelectedCells().isEmpty())) { // If selection made, enable buttons
             updateAppointmentButton.setDisable(false);
             deleteAppointmentButton.setDisable(false);
         }
-        else {
+        else { // if no selection, disable buttons
             updateAppointmentButton.setDisable(true);
             deleteAppointmentButton.setDisable(true);
         }
@@ -134,6 +135,12 @@ public class AppointmentCustomerPageController implements Initializable {
             scene = FXMLLoader.load(getClass().getResource("UserLoginForm.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
+
+            // Disables Confirmation dialog when X button pressed after logout.
+            stage.setOnCloseRequest(event1 -> {
+                JDBC.closeConnection();
+                System.exit(0);
+            });
         }
     }
 
@@ -186,6 +193,12 @@ public class AppointmentCustomerPageController implements Initializable {
             scene = FXMLLoader.load(getClass().getResource("UserLoginForm.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
+
+            // Disables Confirmation dialog when X button pressed after logout.
+            stage.setOnCloseRequest(event1 -> {
+                JDBC.closeConnection();
+                System.exit(0);
+            });
         }
     }
 

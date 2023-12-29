@@ -38,14 +38,16 @@ public class User {
     public int getUserID() { return userID; }
 
     /** Gets the userName.
-     *  @return <code>userName</code> */
+     * @return <code>userName</code> */
     public String getUserName() { return userName; }
 
     /*  --Setters-- */
 
-    /** @param userID the userID to set */
+    /** Sets the userID.
+     * @param userID the userID to set */
     public void setUserID(int userID) { this.userID = userID; }
 
-    /** @param userName the userName to set */
+    /** Sets the userName.
+     * @param userName the userName to set */
     public void setUserName(String userName) { this.userName = userName; }
 }

@@ -15,36 +15,40 @@ import java.time.temporal.ChronoUnit;
 
 public class LoginAlert {
 
+    //
+    // Still needs to be tested
+    //
     public static void LoginAlert() throws SQLException {
 
-        // Get Local Date and Time
+        // Get Local Date and Local Time
         LocalDate localDate = LocalDateTime.now(ZoneId.systemDefault()).toLocalDate();
         LocalTime localTime = LocalDateTime.now(ZoneId.systemDefault()).toLocalTime();
 
         // Declare and get all appointments
-        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-        allAppointments = AppointmentDBImpl.getAllAppointments();
+        ObservableList<Appointment> allAppointments = AppointmentDBImpl.getAllAppointments();
 
-        // Declare Appointment Variables
-        int appointmentIDAlert = 0;
+        // Declare Appointment Variables for finding soonest appointment
+        long      timeDifference       = 20;
+        int       appointmentIDAlert   = 0;
         LocalDate appointmentDateAlert = null;
         LocalTime appointmentTimeAlert = null;
-        long timeDifference = 20;
 
         // Declare alertString for Alert
         String alertString;
 
+        // For each appointment
         for(Appointment appointment : allAppointments) {
             LocalDate appointmentDate = appointment.getStartTime().toLocalDateTime().toLocalDate();
             LocalTime appointmentTime = appointment.getStartTime().toLocalDateTime().toLocalTime();
 
+            // Track nearest appointment in loop
             if ((appointmentDate == localDate) && (ChronoUnit.MINUTES.between(appointmentTime, localTime) < timeDifference))
-                timeDifference = ChronoUnit.MICROS.between(appointmentTime, localTime);
-                appointmentIDAlert = appointment.getAppointmentID();
+                timeDifference       = ChronoUnit.MICROS.between(appointmentTime, localTime);
+                appointmentIDAlert   = appointment.getAppointmentID();
                 appointmentDateAlert = appointmentDate;
                 appointmentTimeAlert = appointmentTime;
             }
-        if (timeDifference <= 15) { // Appointment within 15 minutes
+        if (timeDifference <= 15) { // If appointment within 15 min, build alert
             alertString = "Upcoming appointment in " + timeDifference + " minutes\n"
                     + "Appointment ID: " + appointmentIDAlert + "\n"
                     + "Date: " + appointmentDateAlert + "\n"

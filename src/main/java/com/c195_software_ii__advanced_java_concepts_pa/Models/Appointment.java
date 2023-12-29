@@ -97,39 +97,49 @@ public class Appointment {
      *  @return <code>userID</code> */
     public int getUserID() { return userID; }
 
-    /** Gets contactID associate with the appointment.
+    /** Gets contactID associated with the appointment.
      *  @return <code>contactID</code> */
     public int getContactID() { return contactID; }
 
     /* --Setters-- */
 
-    /** @param appointmentID the appointmentID to be set */
+    /** Sets the appointmentID.
+     *  @param appointmentID the appointmentID to be set */
     public void setAppointmentID(int appointmentID) { this.appointmentID = appointmentID; }
 
-    /** @param title the appointment title to be set */
+    /** Sets the appointment title.
+     *  @param title the appointment title to be set */
     public void setTitle(String title) { this.title = title; }
 
-    /** @param description the appointment description to be set */
+    /** Sets the appointment description.
+     *  @param description the appointment description to be set */
     public void setDescription(String description) { this.description = description; }
 
-    /** @param location the appointment location to be set */
+    /** Sets the appointment location.
+     *  @param location the appointment location to be set */
     public void setLocation(String location) { this.location = location; }
 
-    /** @param type the appointment type to be set */
+    /** Sets the appointment type.
+     *  @param type the appointment type to be set */
     public void setType(String type) { this.type = type; }
 
-    /** @param startTime the appointment start time to be set */
+    /** Sets the appointment startTime.
+     *  @param startTime the appointment start time to be set */
     public void setStartTime(Timestamp startTime) { this.startTime = startTime; }
 
-    /** @param endTime the appointment end time to be set */
+    /** Sets the appointment endTime.
+     *  @param endTime the appointment end time to be set */
     public void setEndTime(Timestamp endTime) { this.endTime = endTime; }
 
-    /** @param customerID the customerID to associate with the appointment */
+    /** Sets the customerID associated with the appointment.
+     *  @param customerID the customerID to associate with the appointment */
     public void setCustomerID(int customerID) { this.customerID = customerID; }
 
-    /** @param userID the userID to associate with the appointment */
+    /** Sets the userID associated with the appointment.
+     *  @param userID the userID to associate with the appointment */
     public void setUserID(int userID) { this.userID = userID; }
 
-    /** @param contactID the contactID to associate with the appointment */
+    /** Sets the contactID associated with the appointment.
+     *  @param contactID the contactID to associate with the appointment */
     public void setContactID(int contactID) { this.contactID = contactID; }
 }

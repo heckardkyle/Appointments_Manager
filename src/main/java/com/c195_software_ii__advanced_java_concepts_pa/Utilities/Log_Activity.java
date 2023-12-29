@@ -17,31 +17,32 @@ import java.time.format.DateTimeFormatter;
 public class Log_Activity {
 
     /**
-     * Logs user activity to log_activity\.txt.
+     * Logs user activity to 'log_activity.txt'.
      * Logs Date and Time in UTC format, username entered and a description of whether it was a successful attempt
-     * or if it want successful and why.
+     * or if it wasn't successful and why.
      * @param username the username to log.
      * @param description the description to log.
      * @throws IOException
      */
     public static void LogActivity(String username, String description) throws IOException {
 
+        // Declare location to log transaction
         String filename = "log_activity.txt";
         File file = new File(filename);
-        PrintWriter printWriter;
-        FileWriter fileWriter;
 
-        fileWriter = new FileWriter(file, true);
-        printWriter = new PrintWriter(fileWriter);
+        // Set up PrintWriter, append to file
+        FileWriter fileWriter = new FileWriter(file, true);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
 
+        // Convert Current date and time to UTC
         LocalDate date = LocalDate.now(Clock.systemUTC());
         LocalTime time = LocalTime.parse(LocalTime.now(Clock.systemUTC()).format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
+        // Log transaction
         printWriter.println(date + " " + time + " Username: " + username + "   " + description);
-
         System.out.println("Transaction Logged");
 
+        // End Log
         printWriter.close();
-
     }
 }
