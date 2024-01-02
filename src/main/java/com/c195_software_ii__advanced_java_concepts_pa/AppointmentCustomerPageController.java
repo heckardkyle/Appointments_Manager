@@ -33,7 +33,7 @@ public class AppointmentCustomerPageController implements Initializable {
     Parent scene;
 
     /* --Appointments List Declarations-- */
-    ObservableList<Appointment> tableAppointments = FXCollections.observableArrayList();
+    ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
     ObservableList<Appointment> monthlyTableAppointments = FXCollections.observableArrayList();
     ObservableList<Appointment> weeklyTableAppointments = FXCollections.observableArrayList();
 
@@ -77,6 +77,7 @@ public class AppointmentCustomerPageController implements Initializable {
     @FXML private Button deleteCustomerButton;
     @FXML private Button customerLogoutButton;
 
+    /* --Appointment Tab-- */
     @FXML
     void onActionMonthlyViewButton(ActionEvent event) {
         monthlyViewButton.setSelected(true); // Prevents button from being unclicked
@@ -106,7 +107,7 @@ public class AppointmentCustomerPageController implements Initializable {
     @FXML
     void onActionCreateNewAppointment(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("AddAppointment.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("Appointment.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
@@ -114,7 +115,7 @@ public class AppointmentCustomerPageController implements Initializable {
     @FXML
     void onActionUpdateAppointment(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("UpdateAppointment.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("Appointment.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
@@ -144,7 +145,7 @@ public class AppointmentCustomerPageController implements Initializable {
         }
     }
 
-
+    /* --Customer Tab-- */
     /**
      * Enables and disables customer update and delete buttons if there's an active selection or not.
      * @param event Mouse click event
@@ -164,15 +165,22 @@ public class AppointmentCustomerPageController implements Initializable {
     @FXML
     void onActionAddCustomer(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("AddCustomer.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("Customer.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
     @FXML
     void onActionUpdateCustomer(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("Customer.fxml"));
+        loader.load();
+
+        //UpdateCustomerController UCController = loader.getController();
+        //UCController.sendCustomer();
+
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("UpdateCustomer.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("Customer.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
     }
@@ -206,11 +214,10 @@ public class AppointmentCustomerPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-
             // clear tableAppointments list then retrieve upon initializing controller
-            tableAppointments.clear();
-            tableAppointments.setAll(AppointmentDBImpl.getAllAppointments());
-            appointmentTableView.setItems(tableAppointments);
+            appointmentList.clear();
+            appointmentList.setAll(AppointmentDBImpl.getAllAppointments());
+            appointmentTableView.setItems(appointmentList);
 
             // Fill appointmentTableView Columns
             appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
@@ -237,6 +244,7 @@ public class AppointmentCustomerPageController implements Initializable {
             customerPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
             customerDivisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
 
-        } catch (SQLException e) { throw new RuntimeException(e); }
+        // if any queries fail.
+        } catch (SQLException e) { e.printStackTrace(); }
     }
 }

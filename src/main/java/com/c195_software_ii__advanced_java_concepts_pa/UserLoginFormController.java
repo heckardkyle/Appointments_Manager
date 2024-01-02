@@ -61,6 +61,17 @@ public class UserLoginFormController implements Initializable {
         public IncorrectCredentialsException() {} }
 
     /**
+     * Displays alert to user if any custom exceptions are thrown.
+     * @param message message to display to user in alert prompt
+     */
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(rb.getString("loginError"));
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    /**
      * @param event signin Button pressed
      * @throws Exception Exceptions thrown for failed userName or password entries
      */
@@ -86,7 +97,6 @@ public class UserLoginFormController implements Initializable {
                 stage.setScene(new Scene(scene));
                 stage.show();
 
-                // lambda 1
                 // After sign on, prompts user to confirm exit when X button is pressed.
                 stage.setOnCloseRequest(event1 -> {
                     // Prompt user with confirmation box
@@ -109,27 +119,22 @@ public class UserLoginFormController implements Initializable {
             // Throw exception if credentials invalid
             else { throw new IncorrectCredentialsException(); }
         }
-        catch (UsernameEmptyException e1) { // catch empty username and alert user
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle(rb.getString("loginError"));
-            alert.setContentText(rb.getString("usernameEmpty"));
-            alert.showAndWait();
-        }
-        catch (PasswordEmptyException e2) { // catch empty password and alert user
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle(rb.getString("loginError"));
-            alert.setContentText(rb.getString("passwordEmpty"));
-            alert.showAndWait();
-        }
-        catch (IncorrectCredentialsException e3) { // catch and log invalid Credentials and alert user
-            Log_Activity.LogActivity(usernameTextField.getText(), "Invalid Credentials");
+        // catch block for this function's Exceptions
+        catch (UsernameEmptyException | PasswordEmptyException | IncorrectCredentialsException | RuntimeException e) {
+            // alert user of empty username
+            if (e instanceof UsernameEmptyException) { showAlert(rb.getString("usernameEmpty")); }
 
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle(rb.getString("loginError"));
-            alert.setContentText(rb.getString("incorrectCredentials"));
-            alert.showAndWait();
+            // alert user of empty password
+            if (e instanceof PasswordEmptyException) { showAlert(rb.getString("passwordEmpty")); }
+
+            // alert user of invalid credentials and log activity
+            if (e instanceof IncorrectCredentialsException) {
+                Log_Activity.LogActivity(usernameTextField.getText(), "Invalid Credentials");
+                showAlert(rb.getString("incorrectCredentials")); }
+
+            // Corrects error that causes unexpected Application Closure
+            if (e instanceof RuntimeException) { /* Cancel Exiting Application */ }
         }
-        catch (RuntimeException e4) { /* Cancel Exiting Application */}
     }
 
 

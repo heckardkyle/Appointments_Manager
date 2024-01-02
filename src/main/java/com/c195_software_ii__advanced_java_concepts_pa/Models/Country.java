@@ -39,6 +39,12 @@ public class Country {
      *  @return <code>countryName</code> */
     public String getCountryName() { return countryName; }
 
+    /**
+     * Used in the CustomerController for the Country ComboBox to display the countryNames
+     * @return <code>countryName</code>
+     */
+    public String toString() { return countryName; }
+
     /* --Setters-- */
 
     /** Sets the countryID.

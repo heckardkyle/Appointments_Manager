@@ -47,6 +47,12 @@ public class FirstLevelDivision {
      *  @return <code>countryID</code> */
     public int getCountryID() { return countryID; }
 
+    /**
+     * Used in the CustomerController for the Division ComboBox to display the divisionNames
+     * @return <code>divisionName</code>
+     */
+    public String toString() { return divisionName; }
+
     /* --Setters-- */
 
     /** Sets the divisionID.
