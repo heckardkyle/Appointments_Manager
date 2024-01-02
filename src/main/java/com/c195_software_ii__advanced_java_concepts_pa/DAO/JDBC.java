@@ -17,14 +17,14 @@ public abstract class JDBC {
 
     /* --Declarations-- */
 
-    private static final String protocol = "jdbc";
-    private static final String vendor = ":mysql:";
-    private static final String location = "//localhost/";
-    private static final String databaseName = "client_schedule";
-    private static final String jdbcUrl = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER"; // LOCAL
-    private static final String driver = "com.mysql.cj.jdbc.Driver"; // Driver reference
-    private static final String userName = "sqlUser"; // Database Username
-    private static       String password = "Passw0rd!"; // Database Password
+    private static final String     protocol     = "jdbc";
+    private static final String     vendor       = ":mysql:";
+    private static final String     location     = "//localhost/";
+    private static final String     databaseName = "client_schedule";
+    private static final String     jdbcUrl  = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER"; // LOCAL
+    private static final String     driver   = "com.mysql.cj.jdbc.Driver"; // Driver reference
+    private static final String     userName = "sqlUser"; // Database Username
+    private static       String     password = "Passw0rd!"; // Database Password
     public  static       Connection connection;  // Connection Interface
 
 

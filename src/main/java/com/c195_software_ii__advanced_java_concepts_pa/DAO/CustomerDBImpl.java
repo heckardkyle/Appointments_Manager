@@ -22,8 +22,8 @@ import java.sql.SQLException;
 public class CustomerDBImpl {
 
     static PreparedStatement preparedStatement;
-    static ResultSet result;
-    static Customer customer;
+    static ResultSet         result;
+    static Customer          customer;
 
     /**
      * Fetches all customers from the Database.
@@ -43,12 +43,12 @@ public class CustomerDBImpl {
 
             while (result.next()) { // For each result in query
                 // Store each value from result
-                int customerID = result.getInt("Customer_ID");
+                int    customerID   = result.getInt   ("Customer_ID");
                 String customerName = result.getString("Customer_Name");
-                String address = result.getString("Address");
-                String postalCode = result.getString("Postal_Code");
-                String phone = result.getString("Phone");
-                int divisionID = result.getInt("Division_ID");
+                String address      = result.getString("Address");
+                String postalCode   = result.getString("Postal_Code");
+                String phone        = result.getString("Phone");
+                int    divisionID   = result.getInt   ("Division_ID");
 
                 // Create Customer object using stored values and add to ObservableList
                 customer = new Customer(customerID, customerName, address, postalCode, phone, divisionID);
@@ -80,12 +80,12 @@ public class CustomerDBImpl {
 
             // Fill values in query using arguments
             preparedStatement = JDBC.connection.prepareStatement(sqlCreate);
-            preparedStatement.setInt(1, customerID);
+            preparedStatement.setInt   (1, customerID);
             preparedStatement.setString(2, customerName);
             preparedStatement.setString(3, address);
             preparedStatement.setString(4, postalCode);
             preparedStatement.setString(5, phone);
-            preparedStatement.setInt(6, divisionID);
+            preparedStatement.setInt   (6, divisionID);
 
             //Execute insertion
             preparedStatement.executeUpdate();
@@ -117,8 +117,8 @@ public class CustomerDBImpl {
             preparedStatement.setString(2, address);
             preparedStatement.setString(3, postalCode);
             preparedStatement.setString(4, phone);
-            preparedStatement.setInt(5, divisionID);
-            preparedStatement.setInt(6, customerID);
+            preparedStatement.setInt   (5, divisionID);
+            preparedStatement.setInt   (6, customerID);
 
             // Execute update
             preparedStatement.executeUpdate();

@@ -30,7 +30,7 @@ public class AppointmentScheduler extends Application {
     /**
      * Opens Connection with database and launches application.
      * Closes Connection with database upon ending application.
-     * @param args
+     * @param args Generic args parameter
      */
     public static void main(String[] args) {
         JDBC.openConnection();
