@@ -33,20 +33,30 @@ public class CustomerController implements Initializable {
     ObservableList<Country>            countryList  = FXCollections.observableArrayList();
     ObservableList<FirstLevelDivision> divisionList = FXCollections.observableArrayList();
 
+    // Declare if customer is being updated
+    Boolean updatingCustomer = false;
+
     /* --FXML IDs-- */
+    @FXML private Label                        customerPageLabel;
     @FXML private TextField                    customerIDTextField;
     @FXML private TextField                    customerNameTextField;
     @FXML private TextField                    phoneNumberTextField;
     @FXML private TextField                    addressTextField;
     @FXML private ComboBox<Country>            countryComboBox;
     @FXML private ComboBox<FirstLevelDivision> divisionComboBox;
+    @FXML private TextField                    postalCodeTextField;
     @FXML private Button                       cancelButton;
-    @FXML private Button                       SaveCustomerButton;
+    @FXML private Button                       saveCustomerButton;
 
+    /* --Declare Custom Exceptions-- */
     public class EmptyFieldsException extends Exception {
         public EmptyFieldsException() {}
     }
 
+    /**
+     * Displays pop-up alert when user triggers an exception.
+     * @param message shown to user when exception is triggered.
+     */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Warning Dialog");
@@ -54,7 +64,13 @@ public class CustomerController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Finds the next available customerID.
+     * @return Next available <code>customerID</code>
+     * @throws SQLException
+     */
     public int getAvailableCustomerID() throws SQLException {
+        // Declare variable to store largest customerID used
         int newCustomerID = -1;
 
         // Look for largest CustomerID in database
@@ -62,10 +78,73 @@ public class CustomerController implements Initializable {
             if (customer.getCustomerID() > newCustomerID)
                 newCustomerID = customer.getCustomerID();
         }
-        // Return smallest available ID
+        // Return next available ID
         return newCustomerID + 1;
     }
 
+    /**
+     * Fetches FirstLevelDivision Object that matches the customer's divisionID
+     * @param customer the customer to find FirstLevelDivision for
+     * @return <code>FirstLevelDivision</code>
+     */
+    public FirstLevelDivision selectFirstLevelDivision(Customer customer) {
+        // For each division in divisionList
+        for (FirstLevelDivision firstLevelDivision : divisionList) {
+            // If division match customer's divisionID
+            if (firstLevelDivision.getDivisionID() == customer.getDivisionID()) {
+                return firstLevelDivision;
+            }
+        }
+        // If no match
+        return null;
+    }
+
+    /**
+     * Fetches the Country Object that match the division's countryID.
+     * @param division the FirstLevelDivision to find Country for
+     * @return <code>Country</code>
+     */
+    public Country selectCountry(FirstLevelDivision division) {
+        // for each country in countryList
+        for (Country country : countryList) {
+            // if country matches division's countryID
+            if (country.getCountryID() == division.getCountryID()) {
+                return country;
+            }
+        }
+        // If no match
+        return null;
+    }
+
+    /**
+     * Sends customer to Customer page.
+     * When update button is pressed in AppointmentCustomerPage, the selected customer's information is sent to the
+     * customer page to fill each of the fields, and the page is set to "update mode".
+     * @param customer the customer to update
+     */
+    public void sendCustomer (Customer customer) {
+        // Fill field with sent customer's info.
+        customerIDTextField.setText(String.valueOf(customer.getCustomerID()));
+        customerNameTextField.setText(customer.getCustomerName());
+        phoneNumberTextField.setText(customer.getPhoneNumber());
+        addressTextField.setText(customer.getAddress());
+        divisionComboBox.getSelectionModel().select(selectFirstLevelDivision(customer));
+        countryComboBox.getSelectionModel().select(selectCountry(divisionComboBox.getSelectionModel().getSelectedItem()));
+        postalCodeTextField.setText(customer.getPostalCode());
+
+        // Change page to update customer mode
+        updatingCustomer = true;
+        divisionComboBox.setItems(divisionList.filtered(firstLevelDivision ->
+                firstLevelDivision.getCountryID() == countryComboBox.getSelectionModel().getSelectedItem().getCountryID()));
+        divisionComboBox.setDisable(false);
+        customerPageLabel.setText("Update Customer");
+        saveCustomerButton.setText("Update Customer");
+    }
+
+    /**
+     * After selecting a country, enables and filters divisionComboBox.
+     * @param event when user interacts with countryComboBox
+     */
     @FXML
     void onActionCountryComboBox(ActionEvent event) {
         // Once Country is selected, enable division box
@@ -76,14 +155,20 @@ public class CustomerController implements Initializable {
                 firstLevelDivision.getCountryID() == countryComboBox.getSelectionModel().getSelectedItem().getCountryID()));
     }
 
+    /**
+     * Sends user back to AppointmentCustomerPage.
+     * If any fields are filled, user is prompted to continue.
+     * @param event Cancel button is pressed
+     * @throws IOException
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         // If no entries have been made, exit without prompt
         if (customerNameTextField.getText().isBlank()
                 && phoneNumberTextField.getText().isBlank()
                 && addressTextField.getText().isBlank()
-                && countryComboBox.getSelectionModel().isEmpty()
-                && divisionComboBox.getSelectionModel().isEmpty()) {
+                && divisionComboBox.getSelectionModel().isEmpty()
+                && postalCodeTextField.getText().isBlank()) {
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
             stage.setScene(new Scene(scene));
@@ -106,44 +191,58 @@ public class CustomerController implements Initializable {
         }
     }
 
+    /**
+     * Create/Update Customer after button is pressed.
+     * Afterwords, user is sent to AppointmentCustomerPage. If any values are empty, user is alerted.
+     * @param event Create/Update Customer Button is pressed
+     * @throws IOException
+     */
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws IOException {
         try {
+            // If any fields empty, alert user
             if (customerNameTextField.getText().isBlank()
                     || phoneNumberTextField.getText().isBlank()
                     || addressTextField.getText().isBlank()
-                    || countryComboBox.getSelectionModel().isEmpty()
-                    || divisionComboBox.getSelectionModel().isEmpty()) {
+                    || divisionComboBox.getSelectionModel().isEmpty()
+                    || postalCodeTextField.getText().isEmpty()) {
                 throw new EmptyFieldsException(); }
 
-            int    newCustomerID;
-            String newCustomerName;
-            String newCustomerPhone;
-            String newCustomerAddress;
-            String newCustomerCountry;
-            String newCustomerFLDivision;
+            // Fill variables with values from fields
+            int    newCustomerID         = Integer.parseInt(customerIDTextField.getText());
+            String newCustomerName       = customerNameTextField.getText();
+            String newCustomerPhone      = phoneNumberTextField.getText();
+            String newCustomerAddress    = addressTextField.getText();
+            int    newCustomerFLDivision = divisionComboBox.getSelectionModel().getSelectedItem().getDivisionID();
+            String newCustomerPostalCode = postalCodeTextField.getText();
 
-            newCustomerID         = Integer.parseInt(customerIDTextField.getText());
-            newCustomerName       = customerNameTextField.getText();
-            newCustomerPhone      = phoneNumberTextField.getText();
-            newCustomerAddress    = addressTextField.getText();
-            newCustomerCountry    = countryComboBox.getSelectionModel().getSelectedItem().getCountryName();
-            newCustomerFLDivision = divisionComboBox.getSelectionModel().getSelectedItem().getDivisionName();
+            // Create Customer or Update Customer if in page is in update mode.
+            if (updatingCustomer) {
+                CustomerDBImpl.updateCustomer(newCustomerID, newCustomerName, newCustomerAddress, newCustomerPostalCode, newCustomerPhone, newCustomerFLDivision);
+            }
+            else {
+                CustomerDBImpl.createCustomer(newCustomerID, newCustomerName, newCustomerAddress, newCustomerPostalCode, newCustomerPhone, newCustomerFLDivision);
+            }
 
-
-
+            // Send user to AppointmentCustomerPage
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
-
         }
+        // Catch Exceptions
         catch (EmptyFieldsException e) {
             if (e instanceof EmptyFieldsException) {
                 showAlert("All fields must have a value before continuing."); }
         }
     }
 
+    /**
+     * Initializes page.
+     * Sets the customerIDTextField and prepares comboBoxes.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

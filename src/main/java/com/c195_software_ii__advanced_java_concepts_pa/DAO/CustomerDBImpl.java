@@ -108,8 +108,9 @@ public class CustomerDBImpl {
                                       String phone, int divisionID) {
         try {
             // Prepare Update Query
-            String sqlUpdate = "UPDATE customers SET (Customer_Name, Address, Postal_Code, Phone, Division_ID) "
-                    + "VALUES (?, ?, ?, ?, ?) WHERE Customer_ID = ?";
+            String sqlUpdate = "UPDATE customers " +
+                    "SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? " +
+                    "WHERE Customer_ID = ?";
 
             // Fill values in query using arguments
             preparedStatement = JDBC.connection.prepareStatement(sqlUpdate);

@@ -16,7 +16,7 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="188.0" layoutY="49.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Add Customer">
+            <Label fx:id="customerPageLabel" text="Add Customer">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -29,20 +29,21 @@
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="455.0" minWidth="10.0" prefWidth="46.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="109.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="96.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="17.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="109.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="96.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="22.0" minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Customer ID:" GridPane.columnIndex="1" />
                   <TextField fx:id="customerIDTextField" disable="true" promptText="Customer ID" GridPane.columnIndex="2" />
-                  <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
-                  <Button fx:id="SaveCustomerButton" mnemonicParsing="false" onAction="#onActionSaveCustomer" text="Add Customer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+                  <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+                  <Button fx:id="saveCustomerButton" mnemonicParsing="false" onAction="#onActionSaveCustomer" text="Add Customer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
                   <Label text="Customer Name:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="customerNameTextField" promptText="Customer Name" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label text="Country:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -53,6 +54,8 @@
                   <TextField fx:id="addressTextField" promptText="Address" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                   <ComboBox fx:id="countryComboBox" maxWidth="1.7976931348623157E308" onAction="#onActionCountryComboBox" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <ComboBox fx:id="divisionComboBox" disable="true" maxWidth="1.7976931348623157E308" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Label text="Postal Code:" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField fx:id="postalCodeTextField" promptText="Postal Code" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                </children>
             </GridPane>
          </children>

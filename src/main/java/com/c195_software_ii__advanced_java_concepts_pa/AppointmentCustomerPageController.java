@@ -176,11 +176,11 @@ public class AppointmentCustomerPageController implements Initializable {
         loader.setLocation(getClass().getResource("Customer.fxml"));
         loader.load();
 
-        //UpdateCustomerController UCController = loader.getController();
-        //UCController.sendCustomer();
+        CustomerController customerController = loader.getController();
+        customerController.sendCustomer(customerTableView.getSelectionModel().getSelectedItem());
 
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("Customer.fxml"));
+        Parent scene = loader.getRoot();
         stage.setScene(new Scene(scene));
         stage.show();
     }
