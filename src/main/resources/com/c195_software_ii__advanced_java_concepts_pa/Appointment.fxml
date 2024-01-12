@@ -49,7 +49,7 @@
                   <Button fx:id="createAppointmentButton" mnemonicParsing="false" onAction="#onActionCreateAppointment" text="Create Appointment" GridPane.columnIndex="3" GridPane.rowIndex="9" />
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Description:" GridPane.rowIndex="6" />
                   <Label text="Customer Name:" GridPane.rowIndex="1" />
-                  <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="7" GridPane.rowSpan="2">
+                  <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnSpan="4" GridPane.rowIndex="7" GridPane.rowSpan="2">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
