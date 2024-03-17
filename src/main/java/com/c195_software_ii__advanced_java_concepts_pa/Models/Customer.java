@@ -23,6 +23,7 @@ public class Customer {
     private String postalCode;
     private String phoneNumber;
     private int    divisionID;
+    private String divisionName;
 
     /* --Constructors-- */
 
@@ -42,6 +43,16 @@ public class Customer {
         this.postalCode   = postalCode;
         this.phoneNumber  = phoneNumber;
         this.divisionID   = divisionID;
+    }
+
+    public Customer(int customerID, String customerName, String address, String postalCode, String phoneNumber, int divisionID, String divisionName) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phoneNumber = phoneNumber;
+        this.divisionID = divisionID;
+        this.divisionName = null;
     }
 
     /* --Getters-- */
@@ -66,9 +77,18 @@ public class Customer {
      *  @return <code>phoneNumber</code> */
     public String getPhoneNumber() { return phoneNumber; }
 
-    /** Gets the Customer's divisionID.
-     *  @return <code>divisionID</code> */
-    public int getDivisionID() { return divisionID; }
+    /**
+     * Gets the Customer's divisionID.
+     *
+     * @return <code>divisionID</code>
+     */
+    public int getDivisionID() {
+        return divisionID;
+    }
+
+    public String getDivisionName() {
+        return divisionName;
+    }
 
     /* --Setters-- */
 
@@ -92,7 +112,16 @@ public class Customer {
      *  @param phoneNumber the customers phoneNumber to be set */
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    /** Sets the Customer's divisionID.
-     *  @param divisionID the customers divisionID to be set */
-    public void setDivisionID(int divisionID) { this.divisionID = divisionID; }
+    /**
+     * Sets the Customer's divisionID.
+     *
+     * @param divisionID the customers divisionID to be set
+     */
+    public void setDivisionID(int divisionID) {
+        this.divisionID = divisionID;
+    }
+
+    public void setDivisionName(String divisionName) {
+        this.divisionName = divisionName;
+    }
 }

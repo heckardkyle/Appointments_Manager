@@ -2,9 +2,11 @@ package com.c195_software_ii__advanced_java_concepts_pa;
 
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl;
+import com.c195_software_ii__advanced_java_concepts_pa.DAO.FirstLevelDivisionDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.JDBC;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Customer;
+import com.c195_software_ii__advanced_java_concepts_pa.Models.FirstLevelDivision;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,6 +41,7 @@ public class AppointmentCustomerPageController implements Initializable {
 
     /* --Customer List Declarations-- */
     ObservableList<Customer> customerList = FXCollections.observableArrayList();
+    ObservableList<FirstLevelDivision> divisionList = FXCollections.observableArrayList();
 
     /* --Appointment FXML Declarations-- */
     @FXML private Tab          appointmentsTab;
@@ -146,6 +149,16 @@ public class AppointmentCustomerPageController implements Initializable {
     }
 
     /* --Customer Tab-- */
+    private void addDivisionName(ObservableList<Customer> customerList, ObservableList<FirstLevelDivision> divisionList) {
+        for (Customer customer : customerList) {
+            for (FirstLevelDivision division : divisionList) {
+                if (customer.getDivisionID() == division.getDivisionID()) {
+                    customer.setDivisionName(division.getDivisionName());
+                }
+            }
+        }
+    }
+
     /**
      * Enables and disables customer update and delete buttons if there's an active selection or not.
      * @param event Mouse click event
@@ -232,8 +245,12 @@ public class AppointmentCustomerPageController implements Initializable {
             UserIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
             // clear customerList then retrieve customers to customerList upon initialize
+            // Name of customer's FirstLevelDivision for user-friendliness.
             customerList.clear();
             customerList.setAll(CustomerDBImpl.getAllCustomers());
+            divisionList.clear();
+            divisionList.setAll(FirstLevelDivisionDBImpl.getFirstLevelDivisions());
+            addDivisionName(customerList, divisionList);
             customerTableView.setItems(customerList);
 
             // insert customer names into customerName list from customerList
@@ -242,7 +259,7 @@ public class AppointmentCustomerPageController implements Initializable {
             customerCustomerAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
             customerPostalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
             customerPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-            customerDivisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
+            customerDivisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
 
         // if any queries fail.
         } catch (SQLException e) { e.printStackTrace(); }
