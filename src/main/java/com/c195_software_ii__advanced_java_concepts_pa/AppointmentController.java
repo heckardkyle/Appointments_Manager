@@ -22,6 +22,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class AppointmentController implements Initializable {
@@ -88,6 +91,13 @@ public class AppointmentController implements Initializable {
         } catch (SQLException e) { e.printStackTrace(); }
 
         contactComboBox.setItems(contactList);
+
+        LocalDate localDate = LocalDate.now(ZoneId.systemDefault());
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/dd/YYYY");
+        String formattedString = localDate.format(dateFormatter);
+        startDateDatePicker.getEditor().setText(formattedString);
+        endDateDatePicker.getEditor().setText(formattedString);
+
     }
 
 }

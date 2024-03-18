@@ -43,7 +43,7 @@ public class LoginAlert {
 
             // Track nearest appointment in loop
             if ((appointmentDate == localDate) && (ChronoUnit.MINUTES.between(appointmentTime, localTime) < timeDifference))
-                timeDifference       = ChronoUnit.MICROS.between(appointmentTime, localTime);
+                timeDifference       = ChronoUnit.MINUTES.between(appointmentTime, localTime);
                 appointmentIDAlert   = appointment.getAppointmentID();
                 appointmentDateAlert = appointmentDate;
                 appointmentTimeAlert = appointmentTime;
