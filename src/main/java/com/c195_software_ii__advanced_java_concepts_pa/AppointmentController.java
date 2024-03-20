@@ -3,6 +3,7 @@ package com.c195_software_ii__advanced_java_concepts_pa;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.ContactDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
+import com.c195_software_ii__advanced_java_concepts_pa.Models.Business;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Contact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,9 +23,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 public class AppointmentController implements Initializable {
@@ -43,10 +44,10 @@ public class AppointmentController implements Initializable {
     @FXML private ComboBox<Contact> contactComboBox;
     @FXML private TextArea          descriptionTextArea;
     @FXML private DatePicker        endDateDatePicker;
-    @FXML private ComboBox<?>       endTimeComboBox;
+    @FXML private ComboBox<String> endTimeComboBox;
     @FXML private TextField         locationTextField;
     @FXML private DatePicker        startDateDatePicker;
-    @FXML private ComboBox<?>       startTimeComboBox;
+    @FXML private ComboBox<String> startTimeComboBox;
     @FXML private TextField         userIDTextField;
 
     public int getAvailableAppointmentID() throws SQLException {
@@ -92,11 +93,37 @@ public class AppointmentController implements Initializable {
 
         contactComboBox.setItems(contactList);
 
-        LocalDate localDate = LocalDate.now(ZoneId.systemDefault());
+        LocalDate localDate = LocalDate.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/dd/YYYY");
-        String formattedString = localDate.format(dateFormatter);
-        startDateDatePicker.getEditor().setText(formattedString);
-        endDateDatePicker.getEditor().setText(formattedString);
+        String formattedDate = localDate.format(dateFormatter);
+        startDateDatePicker.getEditor().setText(formattedDate);
+        endDateDatePicker.getEditor().setText(formattedDate);
+
+        Business business = new Business();
+
+        ObservableList<ZonedDateTime> availableTimeSlots = FXCollections.observableArrayList();
+        availableTimeSlots.add(business.getBusinessOpenTime());
+
+        while (ChronoUnit.MINUTES.between(availableTimeSlots.get(availableTimeSlots.size() - 1), business.getBusinessClosingTime()) > 0) {
+             availableTimeSlots.add(availableTimeSlots.get(availableTimeSlots.size() - 1).plusMinutes(15));
+        }
+
+        ObservableList<String> startTimes = FXCollections.observableArrayList();
+        ObservableList<String> endTimes = FXCollections.observableArrayList();
+
+        int index = 0;
+        for (ZonedDateTime timeSlot : availableTimeSlots) {
+            if (index < availableTimeSlots.size() - 1) {
+                startTimes.add(timeSlot.withZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("hh:mm a v")));
+            }
+            if (index > 0) {
+                endTimes.add(timeSlot.withZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("hh:mm a v")));
+            }
+            index++;
+        }
+
+        startTimeComboBox.setItems(startTimes);
+        endTimeComboBox.setItems(endTimes);
 
     }
 
