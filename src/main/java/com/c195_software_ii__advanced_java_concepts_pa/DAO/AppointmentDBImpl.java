@@ -48,14 +48,14 @@ public class AppointmentDBImpl {
                 String    description   = result.getString   ("Description");
                 String    location      = result.getString   ("Location");
                 String    type          = result.getString   ("Type");
-                Timestamp startTime     = result.getTimestamp("Start");
-                Timestamp endTime       = result.getTimestamp("End");
+                Timestamp dateTimeStart     = result.getTimestamp("Start");
+                Timestamp dateTimeEnd       = result.getTimestamp("End");
                 int       customerID    = result.getInt      ("Customer_ID");
                 int       userID        = result.getInt      ("User_ID");
                 int       contactID     = result.getInt      ("Contact_ID");
 
                 // Create appointment object using stored values and add to ObservableList
-                appointment = new Appointment(appointmentID, title, description, location, type, startTime, endTime, customerID, userID, contactID);
+                appointment = new Appointment(appointmentID, title, description, location, type, dateTimeStart, dateTimeEnd, customerID, userID, contactID);
                 allAppointments.add(appointment);
             }
             return allAppointments;

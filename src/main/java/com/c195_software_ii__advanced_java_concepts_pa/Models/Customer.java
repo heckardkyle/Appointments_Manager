@@ -90,6 +90,8 @@ public class Customer {
         return divisionName;
     }
 
+    public String toString() { return customerName; }
+
     /* --Setters-- */
 
     /** Sets the customerID.

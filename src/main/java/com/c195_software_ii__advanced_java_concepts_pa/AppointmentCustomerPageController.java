@@ -239,8 +239,8 @@ public class AppointmentCustomerPageController implements Initializable {
             locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
             contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
             typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-            startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-            endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("dateTimeStart"));
+            endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("dateTimeEnd"));
             customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
             UserIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
 

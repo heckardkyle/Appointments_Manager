@@ -2,7 +2,6 @@ package com.c195_software_ii__advanced_java_concepts_pa.Utilities;
 
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
@@ -38,8 +37,8 @@ public class LoginAlert {
 
         // For each appointment
         for(Appointment appointment : allAppointments) {
-            LocalDate appointmentDate = appointment.getStartTime().toLocalDateTime().toLocalDate();
-            LocalTime appointmentTime = appointment.getStartTime().toLocalDateTime().toLocalTime();
+            LocalDate appointmentDate = appointment.getDateTimeStart().toLocalDateTime().toLocalDate();
+            LocalTime appointmentTime = appointment.getDateTimeStart().toLocalDateTime().toLocalTime();
 
             // Track nearest appointment in loop
             if ((appointmentDate == localDate) && (ChronoUnit.MINUTES.between(appointmentTime, localTime) < timeDifference))
