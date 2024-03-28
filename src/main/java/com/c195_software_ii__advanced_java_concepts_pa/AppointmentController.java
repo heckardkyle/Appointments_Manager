@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -38,10 +37,18 @@ public class AppointmentController implements Initializable {
     ObservableList<String>        startTimes         = FXCollections.observableArrayList();
     ObservableList<String>        endTimes           = FXCollections.observableArrayList();
 
+    DateTimeFormatter datePickerFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
+    DateTimeFormatter timeComboBoxFormat = DateTimeFormatter.ofPattern("hh:mm a v");
+
+    Business business = new Business();
+
+    Boolean updatingAppointment = false;
+
+    @FXML private Label              appointmentPageLabel;
     @FXML private TextField          appointmentIDTextField;
     @FXML private TextField          titleTextField;
     @FXML private Button             cancelButton;
-    @FXML private Button             createAppointmentButton;
+    @FXML private Button             saveAppointmentButton;
     @FXML private ComboBox<Customer> customerComboBox;
     @FXML private TextField          typeTextField;
     @FXML private ComboBox<Contact>  contactComboBox;
@@ -64,7 +71,42 @@ public class AppointmentController implements Initializable {
     }
 
     public void sendAppointment (Appointment appointment) {
-        // WIP
+        appointmentIDTextField.setText(String.valueOf(appointment.getAppointmentID()));
+        titleTextField.setText(appointment.getTitle());
+        typeTextField.setText(appointment.getType());
+        customerComboBox.getSelectionModel().select(selectCustomer(appointment));
+        contactComboBox.getSelectionModel().select(selectContact(appointment));
+        userIDTextField.setText(String.valueOf(appointment.getUserID()));
+        locationTextField.setText(appointment.getLocation());
+        descriptionTextArea.setText(appointment.getDescription());
+
+        startDateDatePicker.getEditor().setText(appointment.getDateTimeStart().toLocalDateTime().toLocalDate().format(datePickerFormat));
+        endDateDatePicker.getEditor().setText(appointment.getDateTimeEnd().toLocalDateTime().toLocalDate().format(datePickerFormat));
+
+        startTimeComboBox.getSelectionModel().select(appointment.getDateTimeStart().withZoneSameInstant(ZoneId.systemDefault()).format(timeComboBoxFormat));
+        endTimeComboBox.getSelectionModel().select(appointment.getDateTimeEnd().withZoneSameInstant(ZoneId.systemDefault()).format(timeComboBoxFormat));
+
+        updatingAppointment = true;
+        appointmentPageLabel.setText("Update Appointment");
+        saveAppointmentButton.setText("Update Appointment");
+    }
+
+    public Customer selectCustomer(Appointment appointment) {
+        for (Customer customer : customerList) {
+            if (customer.getCustomerID() == appointment.getCustomerID()) {
+                return customer;
+            }
+        }
+        return null;
+    }
+
+    public Contact selectContact(Appointment appointment) {
+        for (Contact contact : contactList) {
+            if (contact.getContactID() == appointment.getContactID()) {
+                return contact;
+            }
+        }
+        return null;
     }
 
     @FXML
@@ -76,7 +118,7 @@ public class AppointmentController implements Initializable {
     }
 
     @FXML
-    void onActionCreateAppointment(ActionEvent event) throws IOException {
+    void onActionSaveAppointment(ActionEvent event) throws IOException {
         try {
             int newAppointmentID          = Integer.parseInt(appointmentIDTextField.getText());
             String appointmentTitle       = titleTextField.getText();
@@ -87,28 +129,17 @@ public class AppointmentController implements Initializable {
             String appointmentLocation    = locationTextField.getText();
             String appointmentDescription = descriptionTextArea.getText();
 
-            DateTimeFormatter currentDateFormat   = DateTimeFormatter.ofPattern("M/dd/yyyy");
-            DateTimeFormatter timeStampDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate startDate = LocalDate.parse(startDateDatePicker.getEditor().getText(), currentDateFormat);
-            LocalDate endDate   = LocalDate.parse(endDateDatePicker.getEditor().getText(), currentDateFormat);
-            startDate.format(timeStampDateFormat);
-            endDate.format(timeStampDateFormat);
+            LocalDate startDate = LocalDate.parse(startDateDatePicker.getEditor().getText(), datePickerFormat);
+            LocalDate endDate   = LocalDate.parse(endDateDatePicker.getEditor().getText(), datePickerFormat);
 
-            DateTimeFormatter currentTimeFormat   = DateTimeFormatter.ofPattern("hh:mm a v");
-            DateTimeFormatter timeStampTimeFormat = DateTimeFormatter.ofPattern("hh:mm:ss.S");
-            LocalTime startTime = LocalTime.parse(startTimeComboBox.getSelectionModel().getSelectedItem(), currentTimeFormat);
-            LocalTime endTime   = LocalTime.parse(endTimeComboBox.getSelectionModel().getSelectedItem(), currentTimeFormat);
-            startTime.atDate(LocalDate.now(ZoneId.systemDefault()));
-            endTime.atDate(LocalDate.now(ZoneId.systemDefault()));
-            startTime.atOffset(ZoneOffset.of("Z"));
-            endTime.atOffset(ZoneOffset.of("Z"));
-            startTime.format(timeStampTimeFormat);
-            endTime.format(timeStampTimeFormat);
-            Timestamp startDateTime = Timestamp.valueOf(LocalDateTime.of(startDate, startTime));
-            Timestamp endDateTime   = Timestamp.valueOf(LocalDateTime.of(endDate, endTime));
+            LocalTime startTime = LocalTime.parse(startTimeComboBox.getSelectionModel().getSelectedItem(), timeComboBoxFormat);
+            LocalTime endTime   = LocalTime.parse(endTimeComboBox.getSelectionModel().getSelectedItem(), timeComboBoxFormat);
+
+            ZonedDateTime zonedStartTime = ZonedDateTime.of(startDate, startTime, ZoneId.systemDefault());
+            ZonedDateTime zonedEndTime = ZonedDateTime.of(endDate, endTime, ZoneId.systemDefault());
 
             AppointmentDBImpl.createAppointment(newAppointmentID, appointmentTitle, appointmentDescription,
-                    appointmentLocation, appointmentType, startDateTime, endDateTime, appointmentCustomerID,
+                    appointmentLocation, appointmentType, zonedStartTime, zonedEndTime, appointmentCustomerID,
                     appointmentUserID, appointmentContactID);
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -137,11 +168,9 @@ public class AppointmentController implements Initializable {
         customerComboBox.setItems(customerList);
         contactComboBox.setItems(contactList);
 
-        String todayDate = LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String todayDate = LocalDate.now().format(datePickerFormat);
         startDateDatePicker.getEditor().setText(todayDate);
         endDateDatePicker.getEditor().setText(todayDate);
-
-        Business business = new Business();
 
         availableTimeSlots.add(business.getBusinessOpenTime());
 
@@ -152,17 +181,16 @@ public class AppointmentController implements Initializable {
         int index = 0;
         for (ZonedDateTime timeSlot : availableTimeSlots) {
             if (index < availableTimeSlots.size() - 1) {
-                startTimes.add(timeSlot.withZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("hh:mm a v")));
+                startTimes.add(timeSlot.withZoneSameInstant(ZoneId.systemDefault()).format(timeComboBoxFormat));
             }
             if (index > 0) {
-                endTimes.add(timeSlot.withZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("hh:mm a v")));
+                endTimes.add(timeSlot.withZoneSameInstant(ZoneId.systemDefault()).format(timeComboBoxFormat));
             }
             index++;
         }
 
         startTimeComboBox.setItems(startTimes);
         endTimeComboBox.setItems(endTimes);
-
     }
 
 }

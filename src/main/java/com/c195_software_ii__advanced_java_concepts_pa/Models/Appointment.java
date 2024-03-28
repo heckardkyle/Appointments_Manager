@@ -1,6 +1,6 @@
 package com.c195_software_ii__advanced_java_concepts_pa.Models;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 
 /**
  * Class for creating Appointment objects.
@@ -20,16 +20,16 @@ public class Appointment {
 
     /* --Members-- */
 
-    private int       appointmentID;
-    private String    title;
-    private String    description;
-    private String    location;
-    private String    type;
-    private Timestamp dateTimeStart;
-    private Timestamp dateTimeEnd;
-    private int       customerID;
-    private int       userID;
-    private int       contactID;
+    private int           appointmentID;
+    private String        title;
+    private String        description;
+    private String        location;
+    private String        type;
+    private ZonedDateTime dateTimeStart;
+    private ZonedDateTime dateTimeEnd;
+    private int           customerID;
+    private int           userID;
+    private int           contactID;
 
     /* --Constructors-- */
 
@@ -40,13 +40,13 @@ public class Appointment {
      * @param description   the appointment description to be set
      * @param location      the location to be set
      * @param type          the appointment type to be set
-     * @param dateTimeStart     the appointment start time to be set
-     * @param dateTimeEnd       the appointment end time to be set
+     * @param dateTimeStart the appointment start time to be set
+     * @param dateTimeEnd   the appointment end time to be set
      * @param customerID    the associated customerID to be set
      * @param userID        the associated userID to be set
      * @param contactID     the associated contactID to be set
      */
-    public Appointment(int appointmentID, String title, String description, String location, String type, Timestamp dateTimeStart, Timestamp dateTimeEnd, int customerID, int userID, int contactID) {
+    public Appointment(int appointmentID, String title, String description, String location, String type, ZonedDateTime dateTimeStart, ZonedDateTime dateTimeEnd, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title         = title;
         this.description   = description;
@@ -83,11 +83,11 @@ public class Appointment {
 
     /** Gets appointment startTime.
      *  @return <code>startTime</code> */
-    public Timestamp getDateTimeStart() { return dateTimeStart; }
+    public ZonedDateTime getDateTimeStart() { return dateTimeStart; }
 
     /** Gets appointment endTime.
      *  @return <code>endTime</code> */
-    public Timestamp getDateTimeEnd() { return dateTimeEnd; }
+    public ZonedDateTime getDateTimeEnd() { return dateTimeEnd; }
 
     /** Gets customerID associated with the appointment.
      *  @return <code>customerID</code> */
@@ -125,11 +125,11 @@ public class Appointment {
 
     /** Sets the appointment startTime.
      *  @param dateTimeStart the appointment start time to be set */
-    public void setDateTimeStart(Timestamp dateTimeStart) { this.dateTimeStart = dateTimeStart; }
+    public void setDateTimeStart(ZonedDateTime dateTimeStart) { this.dateTimeStart = dateTimeStart; }
 
     /** Sets the appointment endTime.
      *  @param dateTimeEnd the appointment end time to be set */
-    public void setDateTimeEnd(Timestamp dateTimeEnd) { this.dateTimeEnd = dateTimeEnd; }
+    public void setDateTimeEnd(ZonedDateTime dateTimeEnd) { this.dateTimeEnd = dateTimeEnd; }
 
     /** Sets the customerID associated with the appointment.
      *  @param customerID the customerID to associate with the appointment */

@@ -1,12 +1,12 @@
 package com.c195_software_ii__advanced_java_concepts_pa;
 
-import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
-import com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl;
-import com.c195_software_ii__advanced_java_concepts_pa.DAO.FirstLevelDivisionDBImpl;
-import com.c195_software_ii__advanced_java_concepts_pa.DAO.JDBC;
+import com.c195_software_ii__advanced_java_concepts_pa.DAO.*;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
+import com.c195_software_ii__advanced_java_concepts_pa.Models.Contact;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Customer;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.FirstLevelDivision;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,23 +25,32 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AppointmentCustomerPageController implements Initializable {
 
     /* --Stage Declarations-- */
-    Stage stage;
+    Stage  stage;
     Parent scene;
 
     /* --Appointments List Declarations-- */
-    ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
+    ObservableList<Contact>     contactList  = FXCollections.observableArrayList();
+    ObservableList<Appointment> appointmentList          = FXCollections.observableArrayList();
     ObservableList<Appointment> monthlyTableAppointments = FXCollections.observableArrayList();
-    ObservableList<Appointment> weeklyTableAppointments = FXCollections.observableArrayList();
+    ObservableList<Appointment> weeklyTableAppointments  = FXCollections.observableArrayList();
 
     /* --Customer List Declarations-- */
-    ObservableList<Customer> customerList = FXCollections.observableArrayList();
+
+    ObservableList<Customer>           customerList = FXCollections.observableArrayList();
     ObservableList<FirstLevelDivision> divisionList = FXCollections.observableArrayList();
+
+    DateTimeFormatter tableFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a v");
 
     /* --Appointment FXML Declarations-- */
     @FXML private Tab          appointmentsTab;
@@ -50,17 +59,17 @@ public class AppointmentCustomerPageController implements Initializable {
     @FXML private ToggleButton weeklyViewButton;
     @FXML private Label        weekMonthLabel;
     @FXML private DatePicker   datePicker;
-    @FXML private TableView  <Appointment>            appointmentTableView;
-    @FXML private TableColumn<Appointment, Integer>   appointmentIDCol;
-    @FXML private TableColumn<Appointment, String>    titleCol;
-    @FXML private TableColumn<Appointment, String>    descriptionCol;
-    @FXML private TableColumn<Appointment, String>    locationCol;
-    @FXML private TableColumn<Appointment, Integer>   contactCol;
-    @FXML private TableColumn<Appointment, String>    typeCol;
-    @FXML private TableColumn<Appointment, Timestamp> startDateTimeCol;
-    @FXML private TableColumn<Appointment, Timestamp> endDateTimeCol;
-    @FXML private TableColumn<Appointment, Integer>   customerIDCol;
-    @FXML private TableColumn<Appointment, Integer>   UserIDCol;
+    @FXML private TableView  <Appointment>          appointmentTableView;
+    @FXML private TableColumn<Appointment, Integer> appointmentIDCol;
+    @FXML private TableColumn<Appointment, String>  titleCol;
+    @FXML private TableColumn<Appointment, String>  descriptionCol;
+    @FXML private TableColumn<Appointment, String>  locationCol;
+    @FXML private TableColumn<Appointment, String>  contactCol;
+    @FXML private TableColumn<Appointment, String>  typeCol;
+    @FXML private TableColumn<Appointment, String>  startDateTimeCol;
+    @FXML private TableColumn<Appointment, String>  endDateTimeCol;
+    @FXML private TableColumn<Appointment, Integer> customerIDCol;
+    @FXML private TableColumn<Appointment, Integer> UserIDCol;
     @FXML private Button newAppointmentButton;
     @FXML private Button updateAppointmentButton;
     @FXML private Button deleteAppointmentButton;
@@ -83,12 +92,12 @@ public class AppointmentCustomerPageController implements Initializable {
     /* --Appointment Tab-- */
     @FXML
     void onActionMonthlyViewButton(ActionEvent event) {
-        monthlyViewButton.setSelected(true); // Prevents button from being unclicked
+        monthlyViewButton.setSelected(true); // Prevents button from being un-clicked
     }
 
     @FXML
     void onActionWeeklyViewButton(ActionEvent event) {
-        weeklyViewButton.setSelected(true); // Prevents button from being unclicked
+        weeklyViewButton.setSelected(true); // Prevents button from being un-clicked
     }
 
     /**
@@ -117,8 +126,15 @@ public class AppointmentCustomerPageController implements Initializable {
 
     @FXML
     void onActionUpdateAppointment(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("Appointment.fxml"));
+        loader.load();
+
+        AppointmentController appointmentController = loader.getController();
+        appointmentController.sendAppointment(appointmentTableView.getSelectionModel().getSelectedItem());
+
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("Appointment.fxml"));
+        Parent scene = loader.getRoot();
         stage.setScene(new Scene(scene));
         stage.show();
     }
@@ -229,37 +245,56 @@ public class AppointmentCustomerPageController implements Initializable {
         try {
             // clear tableAppointments list then retrieve upon initializing controller
             appointmentList.clear();
+            contactList.clear();
             appointmentList.setAll(AppointmentDBImpl.getAllAppointments());
+            contactList.setAll(ContactDBImpl.getContacts());
             appointmentTableView.setItems(appointmentList);
 
             // Fill appointmentTableView Columns
             appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
-            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-            locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-            contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
-            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-            startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("dateTimeStart"));
-            endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("dateTimeEnd"));
-            customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-            UserIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            titleCol        .setCellValueFactory(new PropertyValueFactory<>("title"));
+            descriptionCol  .setCellValueFactory(new PropertyValueFactory<>("description"));
+            locationCol     .setCellValueFactory(new PropertyValueFactory<>("location"));
+            typeCol         .setCellValueFactory(new PropertyValueFactory<>("type"));
+            customerIDCol   .setCellValueFactory(new PropertyValueFactory<>("customerID"));
+            UserIDCol       .setCellValueFactory(new PropertyValueFactory<>("userID"));
+
+            contactCol.setCellValueFactory(cellData -> {
+                for (Contact contact : contactList) {
+                    if (cellData.getValue().getContactID() == contact.getContactID()) {
+                        return new SimpleStringProperty(contact.getContactName());
+                    }
+                }
+                return null;
+            });
+
+            startDateTimeCol.setCellValueFactory(cellData -> {
+                String formattedStartTime = cellData.getValue().getDateTimeStart().withZoneSameInstant(ZoneId.systemDefault()).format(tableFormat);
+                return new SimpleStringProperty(formattedStartTime);
+            });
+
+            endDateTimeCol.setCellValueFactory(cellData -> {
+                String formattedEndTime = cellData.getValue().getDateTimeEnd().withZoneSameInstant(ZoneId.systemDefault()).format(tableFormat);
+                return new SimpleStringProperty(formattedEndTime);
+            });
+
 
             // clear customerList then retrieve customers to customerList upon initialize
             // Name of customer's FirstLevelDivision for user-friendliness.
             customerList.clear();
-            customerList.setAll(CustomerDBImpl.getAllCustomers());
             divisionList.clear();
+            customerList.setAll(CustomerDBImpl.getAllCustomers());
             divisionList.setAll(FirstLevelDivisionDBImpl.getFirstLevelDivisions());
             addDivisionName(customerList, divisionList);
             customerTableView.setItems(customerList);
 
             // insert customer names into customerName list from customerList
-            customerCustomerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-            customerCustomerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            customerCustomerIDCol     .setCellValueFactory(new PropertyValueFactory<>("customerID"));
+            customerCustomerNameCol   .setCellValueFactory(new PropertyValueFactory<>("customerName"));
             customerCustomerAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-            customerPostalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-            customerPhoneNumberCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-            customerDivisionIDCol.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
+            customerPostalCodeCol     .setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+            customerPhoneNumberCol    .setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+            customerDivisionIDCol     .setCellValueFactory(new PropertyValueFactory<>("divisionName"));
 
         // if any queries fail.
         } catch (SQLException e) { e.printStackTrace(); }

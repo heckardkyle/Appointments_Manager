@@ -11,6 +11,7 @@ import java.time.temporal.TemporalAdjusters;
 public class Business {
 
     private ObservableList<Integer> businessDaysOfWeekOpen = FXCollections.observableArrayList();
+    private ZoneId businessZoneID;
     private ZonedDateTime businessOpenTime;
     private ZonedDateTime businessClosingTime;
 
@@ -19,13 +20,17 @@ public class Business {
         // 8am to 10pm
         LocalTime openTime = LocalTime.of(8,0);
         LocalTime closeTime = LocalTime.of(22,0);
-        ZoneId zone = ZoneId.of("America/New_York");
-        this.businessOpenTime = openTime.atDate(LocalDate.now()).atZone(zone);
-        this.businessClosingTime = closeTime.atDate(LocalDate.now()).atZone(zone);
+        this.businessZoneID = ZoneId.of("America/New_York");
+        this.businessOpenTime = openTime.atDate(LocalDate.now()).atZone(businessZoneID);
+        this.businessClosingTime = closeTime.atDate(LocalDate.now()).atZone(businessZoneID);
     }
 
     public ObservableList<Integer> getBusinessDaysOfWeekOpen() {
         return businessDaysOfWeekOpen;
+    }
+
+    public ZoneId getBusinessZoneID() {
+        return businessZoneID;
     }
 
     public ZonedDateTime getBusinessOpenTime() {
@@ -38,6 +43,10 @@ public class Business {
 
     public void setBusinessDaysOfWeekOpen(ObservableList<Integer> businessDaysOfWeekOpen) {
         this.businessDaysOfWeekOpen = businessDaysOfWeekOpen;
+    }
+
+    public void setBusinessZoneID(ZoneId businessZoneID) {
+        this.businessZoneID = businessZoneID;
     }
 
     public void setBusinessOpenTime(ZonedDateTime businessOpenTime) {

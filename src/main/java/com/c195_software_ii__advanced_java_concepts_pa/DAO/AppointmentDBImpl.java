@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 /**
  * Database Access Object for Appointment Queries.
@@ -43,16 +45,16 @@ public class AppointmentDBImpl {
 
             while (result.next()) { // For each result in query
                 // Store each value from result
-                int       appointmentID = result.getInt      ("Appointment_ID");
-                String    title         = result.getString   ("Title");
-                String    description   = result.getString   ("Description");
-                String    location      = result.getString   ("Location");
-                String    type          = result.getString   ("Type");
-                Timestamp dateTimeStart     = result.getTimestamp("Start");
-                Timestamp dateTimeEnd       = result.getTimestamp("End");
-                int       customerID    = result.getInt      ("Customer_ID");
-                int       userID        = result.getInt      ("User_ID");
-                int       contactID     = result.getInt      ("Contact_ID");
+                int           appointmentID = result.getInt      ("Appointment_ID");
+                String        title         = result.getString   ("Title");
+                String        description   = result.getString   ("Description");
+                String        location      = result.getString   ("Location");
+                String        type          = result.getString   ("Type");
+                ZonedDateTime dateTimeStart = result.getTimestamp("Start").toInstant().atZone(ZoneId.of("UTC"));
+                ZonedDateTime dateTimeEnd   = result.getTimestamp("End")  .toInstant().atZone(ZoneId.of("UTC"));
+                int           customerID    = result.getInt      ("Customer_ID");
+                int           userID        = result.getInt      ("User_ID");
+                int           contactID     = result.getInt      ("Contact_ID");
 
                 // Create appointment object using stored values and add to ObservableList
                 appointment = new Appointment(appointmentID, title, description, location, type, dateTimeStart, dateTimeEnd, customerID, userID, contactID);
@@ -80,23 +82,26 @@ public class AppointmentDBImpl {
      * @param contactID     The associated contactID to set
      */
     public static void createAppointment(int appointmentID, String title, String description, String location, String type,
-                                            Timestamp start, Timestamp end, int customerID, int userID, int contactID) {
+                                            ZonedDateTime start, ZonedDateTime end, int customerID, int userID, int contactID) {
         try {
+            Timestamp startStamp = Timestamp.valueOf(start.toLocalDateTime());
+            Timestamp endStamp   = Timestamp.valueOf(end  .toLocalDateTime());
+
             // Prepare Insert Query
             String sqlCreate = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             // Fill values in query using arguments
             preparedStatement = JDBC.connection.prepareStatement(sqlCreate);
-            preparedStatement.setInt      (1, appointmentID);
-            preparedStatement.setString   (2, title);
-            preparedStatement.setString   (3, description);
-            preparedStatement.setString   (4, location);
-            preparedStatement.setString   (5, type);
-            preparedStatement.setTimestamp(6, start);
-            preparedStatement.setTimestamp(7, end);
-            preparedStatement.setInt      (8, customerID);
-            preparedStatement.setInt      (9, userID);
+            preparedStatement.setInt      (1,  appointmentID);
+            preparedStatement.setString   (2,  title);
+            preparedStatement.setString   (3,  description);
+            preparedStatement.setString   (4,  location);
+            preparedStatement.setString   (5,  type);
+            preparedStatement.setTimestamp(6,  startStamp);
+            preparedStatement.setTimestamp(7,  endStamp);
+            preparedStatement.setInt      (8,  customerID);
+            preparedStatement.setInt      (9,  userID);
             preparedStatement.setInt      (10, contactID);
 
             // Execute insertion
@@ -121,23 +126,26 @@ public class AppointmentDBImpl {
      * @param contactID     The associated contactID to set
      */
     public static void updateAppointment(int appointmentID, String title, String description, String location, String type,
-                                         Timestamp start, Timestamp end, int customerID, int userID, int contactID) {
+                                         ZonedDateTime start, ZonedDateTime end, int customerID, int userID, int contactID) {
         try {
+            Timestamp startStamp = Timestamp.valueOf(start.toLocalDateTime());
+            Timestamp endStamp   = Timestamp.valueOf(end.toLocalDateTime());
+
             // Prepare Update Query
             String sqlUpdate = "UPDATE appointments SET (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE Appointment_ID = ?";
 
             // Fill values in query using arguments
             preparedStatement = JDBC.connection.prepareStatement(sqlUpdate);
-            preparedStatement.setString   (1, title);
-            preparedStatement.setString   (2, description);
-            preparedStatement.setString   (3, location);
-            preparedStatement.setString   (4, type);
-            preparedStatement.setTimestamp(5, start);
-            preparedStatement.setTimestamp(6, end);
-            preparedStatement.setInt      (7, customerID);
-            preparedStatement.setInt      (8, userID);
-            preparedStatement.setInt      (9, contactID);
+            preparedStatement.setString   (1,  title);
+            preparedStatement.setString   (2,  description);
+            preparedStatement.setString   (3,  location);
+            preparedStatement.setString   (4,  type);
+            preparedStatement.setTimestamp(5,  startStamp);
+            preparedStatement.setTimestamp(6,  endStamp);
+            preparedStatement.setInt      (7,  customerID);
+            preparedStatement.setInt      (8,  userID);
+            preparedStatement.setInt      (9,  contactID);
             preparedStatement.setInt      (10, appointmentID);
 
             // Execute update
