@@ -3,6 +3,7 @@ package com.c195_software_ii__advanced_java_concepts_pa;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.CountryDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.FirstLevelDivisionDBImpl;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.EmptyFieldsException;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Country;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Customer;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.FirstLevelDivision;
@@ -22,6 +23,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static com.c195_software_ii__advanced_java_concepts_pa.Utilities.ShowAlert.showAlert;
 
 public class CustomerController implements Initializable {
 
@@ -47,22 +50,6 @@ public class CustomerController implements Initializable {
     @FXML private TextField                    postalCodeTextField;
     @FXML private Button                       cancelButton;
     @FXML private Button                       saveCustomerButton;
-
-    /* --Declare Custom Exceptions-- */
-    public class EmptyFieldsException extends Exception {
-        public EmptyFieldsException() {}
-    }
-
-    /**
-     * Displays pop-up alert when user triggers an exception.
-     * @param message shown to user when exception is triggered.
-     */
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Warning Dialog");
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     /**
      * Finds the next available customerID.
@@ -132,10 +119,12 @@ public class CustomerController implements Initializable {
         countryComboBox.getSelectionModel().select(selectCountry(divisionComboBox.getSelectionModel().getSelectedItem()));
         postalCodeTextField.setText(customer.getPostalCode());
 
-        // Change page to update customer mode
-        updatingCustomer = true;
         divisionComboBox.setItems(divisionList.filtered(firstLevelDivision ->
                 firstLevelDivision.getCountryID() == countryComboBox.getSelectionModel().getSelectedItem().getCountryID()));
+
+        // Change page to update customer mode
+        updatingCustomer = true;
+
         divisionComboBox.setDisable(false);
         customerPageLabel.setText("Update Customer");
         saveCustomerButton.setText("Update Customer");
@@ -233,7 +222,7 @@ public class CustomerController implements Initializable {
         // Catch Exceptions
         catch (EmptyFieldsException e) {
             if (e instanceof EmptyFieldsException) {
-                showAlert("All fields must have a value before continuing."); }
+                showAlert("Warning Dialog", "All fields must have a value before continuing."); }
         }
     }
 

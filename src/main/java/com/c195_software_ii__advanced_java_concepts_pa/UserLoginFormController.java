@@ -2,10 +2,12 @@ package com.c195_software_ii__advanced_java_concepts_pa;
 
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.JDBC;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.IncorrectCredentialsException;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.PasswordEmptyException;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.UsernameEmptyException;
 import com.c195_software_ii__advanced_java_concepts_pa.Utilities.Log_Activity;
 import com.c195_software_ii__advanced_java_concepts_pa.Utilities.LoginAlert;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,13 +15,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static com.c195_software_ii__advanced_java_concepts_pa.Utilities.ShowAlert.showAlert;
 
 public class UserLoginFormController implements Initializable {
 
@@ -37,39 +40,6 @@ public class UserLoginFormController implements Initializable {
     @FXML private TextField     usernameTextField;
     @FXML private PasswordField passwordField;
     @FXML private Button        signinButton;
-
-    /* Exception Declarations */
-    /**
-     * Declares 'UsernameEmptyException'.
-     * Thrown if usernameTextField is empty.
-     */
-    public class UsernameEmptyException extends Exception {
-        public UsernameEmptyException() {} }
-
-    /**
-     * Declares 'PasswordEmptyException'.
-     * Thrown if passwordField is empty.
-     */
-    public class PasswordEmptyException extends Exception {
-        public PasswordEmptyException() {} }
-
-    /**
-     * Declares 'IncorrectCredentialsException'.
-     * Thrown if username and password do not have a match.
-     */
-    public class IncorrectCredentialsException extends Exception {
-        public IncorrectCredentialsException() {} }
-
-    /**
-     * Displays alert to user if any custom exceptions are thrown.
-     * @param message message to display to user in alert prompt
-     */
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(rb.getString("loginError"));
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     /**
      * @param event signin Button pressed
@@ -122,15 +92,15 @@ public class UserLoginFormController implements Initializable {
         // catch block for this function's Exceptions
         catch (UsernameEmptyException | PasswordEmptyException | IncorrectCredentialsException | RuntimeException e) {
             // alert user of empty username
-            if (e instanceof UsernameEmptyException) { showAlert(rb.getString("usernameEmpty")); }
+            if (e instanceof UsernameEmptyException) { showAlert(rb.getString("loginError"), rb.getString("usernameEmpty")); }
 
             // alert user of empty password
-            if (e instanceof PasswordEmptyException) { showAlert(rb.getString("passwordEmpty")); }
+            if (e instanceof PasswordEmptyException) { showAlert(rb.getString("loginError"), rb.getString("passwordEmpty")); }
 
             // alert user of invalid credentials and log activity
             if (e instanceof IncorrectCredentialsException) {
                 Log_Activity.LogActivity(usernameTextField.getText(), "Invalid Credentials");
-                showAlert(rb.getString("incorrectCredentials")); }
+                showAlert(rb.getString("loginError"), rb.getString("incorrectCredentials")); }
 
             // Corrects error that causes unexpected Application Closure
             if (e instanceof RuntimeException) { /* Cancel Exiting Application */ }

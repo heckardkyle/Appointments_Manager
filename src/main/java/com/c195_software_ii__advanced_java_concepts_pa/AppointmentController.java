@@ -3,10 +3,12 @@ package com.c195_software_ii__advanced_java_concepts_pa;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.ContactDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.EmptyFieldsException;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Business;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Contact;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Customer;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,7 +26,10 @@ import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static com.c195_software_ii__advanced_java_concepts_pa.Utilities.ShowAlert.showAlert;
 
 public class AppointmentController implements Initializable {
 
@@ -111,15 +116,54 @@ public class AppointmentController implements Initializable {
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        // If no entries have been made, exit without prompt
+        if (titleTextField.getText().isBlank()
+                && typeTextField.getText().isBlank()
+                && customerComboBox.getSelectionModel().isEmpty()
+                && contactComboBox.getSelectionModel().isEmpty()
+                && userIDTextField.getText().isBlank()
+                && locationTextField.getText().isBlank()
+                && startTimeComboBox.getSelectionModel().isEmpty()
+                && endTimeComboBox.getSelectionModel().isEmpty()
+                && descriptionTextArea.getText().isBlank()) {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will cancel any changes made. Do you want to continue?");
+
+            // Wait for response from user
+            Optional<ButtonType> result = alert.showAndWait();
+
+            // If 'OK' pressed, continue to main page.
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }
+        }
     }
 
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws IOException {
         try {
+
+            if (titleTextField.getText().isBlank()
+                    || typeTextField.getText().isBlank()
+                    || customerComboBox.getSelectionModel().isEmpty()
+                    || contactComboBox.getSelectionModel().isEmpty()
+                    || userIDTextField.getText().isBlank()
+                    || locationTextField.getText().isBlank()
+                    || startDateDatePicker.getEditor().getText().isBlank()
+                    || endDateDatePicker.getEditor().getText().isBlank()
+                    || startTimeComboBox.getSelectionModel().isEmpty()
+                    || endTimeComboBox.getSelectionModel().isEmpty()
+                    || descriptionTextArea.getText().isBlank()) {
+                throw new EmptyFieldsException(); }
+
             int newAppointmentID          = Integer.parseInt(appointmentIDTextField.getText());
             String appointmentTitle       = titleTextField.getText();
             String appointmentType        = typeTextField.getText();
@@ -146,8 +190,11 @@ public class AppointmentController implements Initializable {
             scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
-        } catch (Exception e) {}
-
+        }
+        catch (EmptyFieldsException e) {
+            if (e instanceof EmptyFieldsException) {
+                showAlert("Warning Dialog", "All fields must have a value before continuing."); }
+        }
     }
 
     @Override
