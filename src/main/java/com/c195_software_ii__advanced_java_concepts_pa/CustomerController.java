@@ -209,7 +209,7 @@ public class CustomerController implements Initializable {
             if (updatingCustomer) {
                 CustomerDBImpl.updateCustomer(newCustomerID, newCustomerName, newCustomerAddress, newCustomerPostalCode, newCustomerPhone, newCustomerFLDivision);
             }
-            else {
+            else { // Create new customer
                 CustomerDBImpl.createCustomer(newCustomerID, newCustomerName, newCustomerAddress, newCustomerPostalCode, newCustomerPhone, newCustomerFLDivision);
             }
 
@@ -220,7 +220,7 @@ public class CustomerController implements Initializable {
             stage.show();
         }
         // Catch Exceptions
-        catch (EmptyFieldsException e) {
+        catch (Exception e) {
             if (e instanceof EmptyFieldsException) {
                 showAlert("Warning Dialog", "All fields must have a value before continuing."); }
         }

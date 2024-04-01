@@ -132,8 +132,9 @@ public class AppointmentDBImpl {
             Timestamp endStamp   = Timestamp.valueOf(end.toLocalDateTime());
 
             // Prepare Update Query
-            String sqlUpdate = "UPDATE appointments SET (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE Appointment_ID = ?";
+            String sqlUpdate = "UPDATE appointments " +
+                    "SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, " +
+                    "User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
 
             // Fill values in query using arguments
             preparedStatement = JDBC.connection.prepareStatement(sqlUpdate);

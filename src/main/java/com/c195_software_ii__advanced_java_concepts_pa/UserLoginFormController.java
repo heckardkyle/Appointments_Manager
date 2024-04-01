@@ -53,7 +53,7 @@ public class UserLoginFormController implements Initializable {
             if (passwordField.getText().isEmpty()) { throw new PasswordEmptyException(); }
 
             // Checks if username and password are valid
-            if (UserDBImpl.GetUser(usernameTextField.getText(), passwordField.getText()) != null) {
+            if (UserDBImpl.getUser(usernameTextField.getText(), passwordField.getText()) != null) {
 
                 // Log successful login
                 Log_Activity.LogActivity(usernameTextField.getText(), "Successfully Logged In");
