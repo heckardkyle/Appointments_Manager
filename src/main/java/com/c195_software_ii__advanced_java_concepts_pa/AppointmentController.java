@@ -3,7 +3,9 @@ package com.c195_software_ii__advanced_java_concepts_pa;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.ContactDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl;
+import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.EmptyFieldsException;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.UserIDNotValidException;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Business;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Contact;
@@ -150,7 +152,7 @@ public class AppointmentController implements Initializable {
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws IOException {
         try {
-
+            // If any fields empty, alert user
             if (titleTextField.getText().isBlank()
                     || typeTextField.getText().isBlank()
                     || customerComboBox.getSelectionModel().isEmpty()
@@ -164,6 +166,10 @@ public class AppointmentController implements Initializable {
                     || descriptionTextArea.getText().isBlank()) {
                 throw new EmptyFieldsException(); }
 
+            if (UserDBImpl.getUser(userIDTextField.getText()) == null) {
+                throw new UserIDNotValidException(); }
+
+            //Fill variables with values from fields
             int newAppointmentID          = Integer.parseInt(appointmentIDTextField.getText());
             String appointmentTitle       = titleTextField.getText();
             String appointmentType        = typeTextField.getText();
@@ -182,18 +188,29 @@ public class AppointmentController implements Initializable {
             ZonedDateTime zonedStartTime = ZonedDateTime.of(startDate, startTime, ZoneId.systemDefault());
             ZonedDateTime zonedEndTime = ZonedDateTime.of(endDate, endTime, ZoneId.systemDefault());
 
-            AppointmentDBImpl.createAppointment(newAppointmentID, appointmentTitle, appointmentDescription,
-                    appointmentLocation, appointmentType, zonedStartTime, zonedEndTime, appointmentCustomerID,
-                    appointmentUserID, appointmentContactID);
+            if (updatingAppointment) {
+                AppointmentDBImpl.updateAppointment(newAppointmentID, appointmentTitle, appointmentDescription,
+                        appointmentLocation, appointmentType, zonedStartTime, zonedEndTime, appointmentCustomerID,
+                        appointmentUserID, appointmentContactID);
+            }
+            else {
+                AppointmentDBImpl.createAppointment(newAppointmentID, appointmentTitle, appointmentDescription,
+                        appointmentLocation, appointmentType, zonedStartTime, zonedEndTime, appointmentCustomerID,
+                        appointmentUserID, appointmentContactID);
+            }
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("AppointmentCustomerPage.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
         }
-        catch (EmptyFieldsException e) {
+        catch (Exception e) {
             if (e instanceof EmptyFieldsException) {
                 showAlert("Warning Dialog", "All fields must have a value before continuing."); }
+            if (e instanceof UserIDNotValidException) {
+                showAlert("Warning Dialog", "Not a valid User ID"); }
+            if (e instanceof SQLException) {
+                e.printStackTrace(); }
         }
     }
 
