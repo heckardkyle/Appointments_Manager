@@ -58,7 +58,7 @@
                   <Label text="Location:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                   <TextField fx:id="locationTextField" promptText="Location" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                   <Label text="Start Date:" GridPane.rowIndex="4" />
-                  <DatePicker fx:id="startDateDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <DatePicker fx:id="startDateDatePicker" onAction="#onActionSetEndDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="Start Time:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <ComboBox fx:id="startTimeComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                   <Label text="End Date:" GridPane.rowIndex="5" />

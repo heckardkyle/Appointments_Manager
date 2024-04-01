@@ -4,7 +4,9 @@ import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.ContactDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.AppointmentSchedulingException;
 import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.EmptyFieldsException;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.NotValidDateException;
 import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.UserIDNotValidException;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Business;
@@ -68,7 +70,7 @@ public class AppointmentController implements Initializable {
     @FXML private TextField          userIDTextField;
 
     public int getAvailableAppointmentID() throws SQLException {
-        int newAppointmentID = -1;
+        int newAppointmentID = 0;
 
         for (Appointment appointment : AppointmentDBImpl.getAllAppointments()) {
             if (appointment.getAppointmentID() > newAppointmentID)
@@ -114,6 +116,11 @@ public class AppointmentController implements Initializable {
             }
         }
         return null;
+    }
+
+    @FXML
+    void onActionSetEndDate(ActionEvent event) throws IOException {
+        endDateDatePicker.getEditor().setText(startDateDatePicker.getEditor().getText());
     }
 
     @FXML
@@ -166,9 +173,6 @@ public class AppointmentController implements Initializable {
                     || descriptionTextArea.getText().isBlank()) {
                 throw new EmptyFieldsException(); }
 
-            if (UserDBImpl.getUser(userIDTextField.getText()) == null) {
-                throw new UserIDNotValidException(); }
-
             //Fill variables with values from fields
             int newAppointmentID          = Integer.parseInt(appointmentIDTextField.getText());
             String appointmentTitle       = titleTextField.getText();
@@ -187,6 +191,14 @@ public class AppointmentController implements Initializable {
 
             ZonedDateTime zonedStartTime = ZonedDateTime.of(startDate, startTime, ZoneId.systemDefault());
             ZonedDateTime zonedEndTime = ZonedDateTime.of(endDate, endTime, ZoneId.systemDefault());
+
+            if (UserDBImpl.getUser(userIDTextField.getText()) == null) {
+                throw new UserIDNotValidException(); }
+            if (zonedEndTime.isBefore(zonedStartTime) || zonedEndTime.isEqual(zonedStartTime)) {
+                throw new AppointmentSchedulingException(); }
+            if (!business.getBusinessDaysOfWeekOpen().contains(zonedStartTime.getDayOfWeek()) ||
+                    !business.getBusinessDaysOfWeekOpen().contains(zonedEndTime.getDayOfWeek())) {
+                throw new NotValidDateException(); }
 
             if (updatingAppointment) {
                 AppointmentDBImpl.updateAppointment(newAppointmentID, appointmentTitle, appointmentDescription,
@@ -209,6 +221,10 @@ public class AppointmentController implements Initializable {
                 showAlert("Warning Dialog", "All fields must have a value before continuing."); }
             if (e instanceof UserIDNotValidException) {
                 showAlert("Warning Dialog", "Not a valid User ID"); }
+            if (e instanceof AppointmentSchedulingException) {
+                showAlert("Warning Dialog", "Appointment must end after appointment start period"); }
+            if (e instanceof NotValidDateException) {
+                showAlert("Warning Dialog", "Appointment must take place on a business date"); }
             if (e instanceof SQLException) {
                 e.printStackTrace(); }
         }

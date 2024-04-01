@@ -58,7 +58,7 @@ public class CustomerController implements Initializable {
      */
     public int getAvailableCustomerID() throws SQLException {
         // Declare variable to store largest customerID used
-        int newCustomerID = -1;
+        int newCustomerID = 0;
 
         // Look for largest CustomerID in database
         for (Customer customer : CustomerDBImpl.getAllCustomers()) {

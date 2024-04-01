@@ -6,7 +6,6 @@ import com.c195_software_ii__advanced_java_concepts_pa.Models.Contact;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Customer;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.FirstLevelDivision;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,13 +22,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -140,8 +135,21 @@ public class AppointmentCustomerPageController implements Initializable {
     }
 
     @FXML
-    void onActionDeleteAppointment(ActionEvent event) {
+    void onActionDeleteAppointment(ActionEvent event) throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this appointment?");
 
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            AppointmentDBImpl.deleteAppointment(appointmentTableView.getSelectionModel().getSelectedItem().getAppointmentID());
+
+            updateAppointmentButton.setDisable(true);
+            deleteAppointmentButton.setDisable(true);
+            appointmentList.clear();
+            appointmentList.setAll(AppointmentDBImpl.getAllAppointments());
+            appointmentTableView.refresh();
+
+        }
     }
 
     @FXML
@@ -215,8 +223,28 @@ public class AppointmentCustomerPageController implements Initializable {
     }
 
     @FXML
-    void onActionDeleteCustomer(ActionEvent event) {
+    void onActionDeleteCustomer(ActionEvent event) throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this customer and all associated appointments?");
 
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (Appointment appointment : appointmentList) {
+                if (appointment.getCustomerID() == customerTableView.getSelectionModel().getSelectedItem().getCustomerID()) {
+                    AppointmentDBImpl.deleteAppointment(appointment.getAppointmentID());
+                }
+            }
+            CustomerDBImpl.deleteCustomer(customerTableView.getSelectionModel().getSelectedItem().getCustomerID());
+
+            updateCustomerButton.setDisable(true);
+            deleteCustomerButton.setDisable(true);
+            appointmentList.clear();
+            customerList.clear();
+            appointmentList.setAll(AppointmentDBImpl.getAllAppointments());
+            customerList.setAll(CustomerDBImpl.getAllCustomers());
+            appointmentTableView.refresh();
+            customerTableView.refresh();
+        }
     }
 
     @FXML

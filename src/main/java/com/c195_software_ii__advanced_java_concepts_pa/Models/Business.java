@@ -1,22 +1,20 @@
 package com.c195_software_ii__advanced_java_concepts_pa.Models;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAdjusters;
+import java.util.EnumSet;
+import java.util.Set;
 
 public class Business {
 
-    private ObservableList<Integer> businessDaysOfWeekOpen = FXCollections.observableArrayList();
+    //private ObservableList<Integer> businessDaysOfWeekOpen = FXCollections.observableArrayList();
+    private Set<DayOfWeek> businessDaysOfWeekOpen;
     private ZoneId businessZoneID;
     private ZonedDateTime businessOpenTime;
     private ZonedDateTime businessClosingTime;
 
     public Business () {
-        this.businessDaysOfWeekOpen.addAll(1,2,3,4,5);
+        Set<DayOfWeek> daysOfWeekOpen = EnumSet.range(DayOfWeek.MONDAY,DayOfWeek.FRIDAY);
+        this.businessDaysOfWeekOpen = daysOfWeekOpen;
         // 8am to 10pm
         LocalTime openTime = LocalTime.of(8,0);
         LocalTime closeTime = LocalTime.of(22,0);
@@ -25,7 +23,7 @@ public class Business {
         this.businessClosingTime = closeTime.atDate(LocalDate.now()).atZone(businessZoneID);
     }
 
-    public ObservableList<Integer> getBusinessDaysOfWeekOpen() {
+    public Set<DayOfWeek> getBusinessDaysOfWeekOpen() {
         return businessDaysOfWeekOpen;
     }
 
@@ -41,7 +39,7 @@ public class Business {
         return businessClosingTime;
     }
 
-    public void setBusinessDaysOfWeekOpen(ObservableList<Integer> businessDaysOfWeekOpen) {
+    public void setBusinessDaysOfWeekOpen(Set<DayOfWeek> businessDaysOfWeekOpen) {
         this.businessDaysOfWeekOpen = businessDaysOfWeekOpen;
     }
 
