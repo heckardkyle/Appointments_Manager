@@ -6,7 +6,7 @@ public interface ShowAlert{
 
     static void showAlert(String title, String message){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Warning Dialog");
+        alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
     }

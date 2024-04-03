@@ -42,7 +42,7 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <DatePicker fx:id="datePicker" maxHeight="25.0" maxWidth="200.0" minHeight="25.0" minWidth="200.0" />
+                                    <DatePicker fx:id="datePicker" maxHeight="25.0" maxWidth="200.0" minHeight="25.0" minWidth="200.0" onAction="#onActionDatePicker" />
                                  </children>
                               </HBox>
                               <TableView fx:id="appointmentTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#onMouseTableClick" prefHeight="10000.0" prefWidth="10000.0">

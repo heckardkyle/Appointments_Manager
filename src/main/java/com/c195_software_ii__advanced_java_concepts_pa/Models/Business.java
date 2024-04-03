@@ -6,7 +6,6 @@ import java.util.Set;
 
 public class Business {
 
-    //private ObservableList<Integer> businessDaysOfWeekOpen = FXCollections.observableArrayList();
     private Set<DayOfWeek> businessDaysOfWeekOpen;
     private ZoneId businessZoneID;
     private ZonedDateTime businessOpenTime;
