@@ -4,10 +4,11 @@ import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.ContactDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
-import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.AppointmentSchedulingException;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.EndBeforeStartException;
 import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.EmptyFieldsException;
 import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.NotValidDateException;
 import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.UserIDNotValidException;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.AppointmentOverlapException;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Business;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Contact;
@@ -195,10 +196,27 @@ public class AppointmentController implements Initializable {
             if (UserDBImpl.getUser(userIDTextField.getText()) == null) {
                 throw new UserIDNotValidException(); }
             if (zonedEndTime.isBefore(zonedStartTime) || zonedEndTime.isEqual(zonedStartTime)) {
-                throw new AppointmentSchedulingException(); }
+                throw new EndBeforeStartException(); }
             if (!business.getBusinessDaysOfWeekOpen().contains(zonedStartTime.getDayOfWeek()) ||
                     !business.getBusinessDaysOfWeekOpen().contains(zonedEndTime.getDayOfWeek())) {
                 throw new NotValidDateException(); }
+            for (Appointment appointment : AppointmentDBImpl.getAllAppointments()) {
+                if (appointment.getCustomerID() == appointmentCustomerID) {
+                    ZonedDateTime startTime1 = appointment.getDateTimeStart();
+                    ZonedDateTime endTime1 = appointment.getDateTimeEnd();
+                    ZonedDateTime startTime2 = zonedStartTime;
+                    ZonedDateTime endTime2 = zonedEndTime;
+
+                    boolean predicate1 = startTime2.isBefore(startTime1);
+                    boolean predicate2 = endTime2.isBefore(startTime1) || endTime2.isEqual(startTime1);
+                    boolean predicate3 = startTime2.isEqual(endTime1) || startTime2.isAfter(endTime1);
+                    boolean predicate4 = endTime2.isAfter(endTime1);
+
+                    if (!((predicate1 && predicate2) || (predicate3 && predicate4))) {
+                        throw new AppointmentOverlapException();
+                    }
+                }
+            }
 
             if (updatingAppointment) {
                 AppointmentDBImpl.updateAppointment(newAppointmentID, appointmentTitle, appointmentDescription,
@@ -221,12 +239,15 @@ public class AppointmentController implements Initializable {
                 showAlert("Warning Dialog", "All fields must have a value before continuing."); }
             if (e instanceof UserIDNotValidException) {
                 showAlert("Warning Dialog", "Not a valid User ID"); }
-            if (e instanceof AppointmentSchedulingException) {
+            if (e instanceof EndBeforeStartException) {
                 showAlert("Warning Dialog", "Appointment must end after appointment start period"); }
             if (e instanceof NotValidDateException) {
                 showAlert("Warning Dialog", "Appointment must take place on a business date"); }
             if (e instanceof SQLException) {
                 e.printStackTrace(); }
+            if (e instanceof AppointmentOverlapException) {
+                showAlert("Warning Dialog", "Appointment overlaps existing appointment");
+            }
         }
     }
 
