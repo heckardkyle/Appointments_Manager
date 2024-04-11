@@ -1,6 +1,8 @@
 package com.c195_software_ii__advanced_java_concepts_pa.DAO;
 
 import com.c195_software_ii__advanced_java_concepts_pa.Models.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +23,25 @@ public class UserDBImpl {
     static PreparedStatement preparedStatement;
     static ResultSet         result;
     static User              userResult;
+
+    public static ObservableList<User> getAllUsers() throws SQLException {
+        try {
+            String sql = "SELECT * FROM users"; // Query
+            ObservableList<User> allUsers = FXCollections.observableArrayList();
+            allUsers.clear();
+            preparedStatement = JDBC.connection.prepareStatement(sql);
+            result = preparedStatement.executeQuery();
+
+            while (result.next()) {
+                int userID = result.getInt("User_ID");
+                userResult = new User(userID);
+                allUsers.add(userResult);
+            }
+            return allUsers;
+        }
+        catch (SQLException e) { e.printStackTrace(); }
+        return null; // No Users found
+    }
 
     /**
      * Checks userName and password against database to log in to application.

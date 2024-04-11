@@ -31,6 +31,10 @@ public class User {
         this.userName = userName;
     }
 
+    public User(int userID) {
+        this.userID = userID;
+    }
+
     /* --Getters-- */
 
     /** Gets the userID.
