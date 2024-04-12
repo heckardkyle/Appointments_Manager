@@ -23,7 +23,6 @@ public class Customer {
     private String postalCode;
     private String phoneNumber;
     private int    divisionID;
-    private String divisionName;
 
     /* --Constructors-- */
 
@@ -43,16 +42,6 @@ public class Customer {
         this.postalCode   = postalCode;
         this.phoneNumber  = phoneNumber;
         this.divisionID   = divisionID;
-    }
-
-    public Customer(int customerID, String customerName, String address, String postalCode, String phoneNumber, int divisionID, String divisionName) {
-        this.customerID = customerID;
-        this.customerName = customerName;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.phoneNumber = phoneNumber;
-        this.divisionID = divisionID;
-        this.divisionName = null;
     }
 
     /* --Getters-- */
@@ -86,10 +75,6 @@ public class Customer {
         return divisionID;
     }
 
-    public String getDivisionName() {
-        return divisionName;
-    }
-
     public String toString() { return customerName; }
 
     /* --Setters-- */
@@ -121,9 +106,5 @@ public class Customer {
      */
     public void setDivisionID(int divisionID) {
         this.divisionID = divisionID;
-    }
-
-    public void setDivisionName(String divisionName) {
-        this.divisionName = divisionName;
     }
 }

@@ -96,7 +96,7 @@
                                     <TableColumn fx:id="customerCustomerAddressCol" prefWidth="75.0" text="Address" />
                                     <TableColumn fx:id="customerPostalCodeCol" prefWidth="75.0" text="Postal Code" />
                                     <TableColumn fx:id="customerPhoneNumberCol" prefWidth="75.0" text="Phone Number" />
-                                    <TableColumn fx:id="customerDivisionIDCol" prefWidth="75.0" text="Division ID" />
+                                    <TableColumn fx:id="customerDivisionCol" prefWidth="75.0" text="Division" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

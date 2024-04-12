@@ -91,7 +91,7 @@ public class AppointmentCustomerPageController implements Initializable {
     @FXML private TableColumn<Customer, String>  customerCustomerAddressCol;
     @FXML private TableColumn<Customer, String>  customerPostalCodeCol;
     @FXML private TableColumn<Customer, String>  customerPhoneNumberCol;
-    @FXML private TableColumn<Customer, Integer> customerDivisionIDCol;
+    @FXML private TableColumn<Customer, String>  customerDivisionCol;
     @FXML private Button newCustomerButton;
     @FXML private Button updateCustomerButton;
     @FXML private Button deleteCustomerButton;
@@ -251,16 +251,6 @@ public class AppointmentCustomerPageController implements Initializable {
     /* ---------------- */
     /* --Customer Tab-- */
     /* ---------------- */
-
-    private void addDivisionName(ObservableList<Customer> customerList, ObservableList<FirstLevelDivision> divisionList) {
-        for (Customer customer : customerList) {
-            for (FirstLevelDivision division : divisionList) {
-                if (customer.getDivisionID() == division.getDivisionID()) {
-                    customer.setDivisionName(division.getDivisionName());
-                }
-            }
-        }
-    }
 
     /**
      * Enables and disables customer update and delete buttons if there's an active selection or not.
@@ -781,7 +771,6 @@ public class AppointmentCustomerPageController implements Initializable {
             divisionList.clear();
             customerList.setAll(CustomerDBImpl.getAllCustomers());
             divisionList.setAll(FirstLevelDivisionDBImpl.getFirstLevelDivisions());
-            addDivisionName(customerList, divisionList);
             customerTableView.setItems(customerList);
 
             // Fill table columns
@@ -790,7 +779,15 @@ public class AppointmentCustomerPageController implements Initializable {
             customerCustomerAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
             customerPostalCodeCol     .setCellValueFactory(new PropertyValueFactory<>("postalCode"));
             customerPhoneNumberCol    .setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-            customerDivisionIDCol     .setCellValueFactory(new PropertyValueFactory<>("divisionName"));
+
+            customerDivisionCol.setCellValueFactory(cellData -> {
+                for (FirstLevelDivision division : divisionList) {
+                    if (division.getDivisionID() == cellData.getValue().getDivisionID()) {
+                        return new SimpleStringProperty(division.getDivisionName());
+                    }
+                }
+                return null;
+            });
 
             /* --------------- */
             /* --Reports Tab-- */
