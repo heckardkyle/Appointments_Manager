@@ -3,10 +3,8 @@ package com.c195_software_ii__advanced_java_concepts_pa.Models;
 
 /**
  * Class for creating Customer objects.
- * Customer objects can be used to view, update, and delete customers.
+ * Customer objects can be retrieved from the database and be used to view, update, and delete customers.
  * The customerID is also necessary to create appointment objects from the Appointment class.
- * Customers will be retrieved from database, and can be used to update customer in database and delete customer
- * from database.
  *
  * @author Kyle Heckard
  * @version 1.0
@@ -28,6 +26,7 @@ public class Customer {
 
     /**
      * Default Constructor for Customer object
+     *
      * @param customerID   the customerID to be set
      * @param customerName the customerName to be set
      * @param address      the customers address to be set
@@ -36,6 +35,7 @@ public class Customer {
      * @param divisionID   the customers divisionID to be set
      */
     public Customer(int customerID, String customerName, String address, String postalCode, String phoneNumber, int divisionID) {
+
         this.customerID   = customerID;
         this.customerName = customerName;
         this.address      = address;
@@ -66,15 +66,14 @@ public class Customer {
      *  @return <code>phoneNumber</code> */
     public String getPhoneNumber() { return phoneNumber; }
 
-    /**
-     * Gets the Customer's divisionID.
-     *
-     * @return <code>divisionID</code>
-     */
+    /** Gets the Customer's divisionID.
+     *  @return <code>divisionID</code> */
     public int getDivisionID() {
         return divisionID;
     }
 
+    /** Used for ComboBoxes to display customerNames.
+     *  @return <code>customerName</code> */
     public String toString() { return customerName; }
 
     /* --Setters-- */
@@ -99,11 +98,8 @@ public class Customer {
      *  @param phoneNumber the customers phoneNumber to be set */
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    /**
-     * Sets the Customer's divisionID.
-     *
-     * @param divisionID the customers divisionID to be set
-     */
+    /** Sets the Customer's divisionID.
+     *  @param divisionID the customers divisionID to be set */
     public void setDivisionID(int divisionID) {
         this.divisionID = divisionID;
     }

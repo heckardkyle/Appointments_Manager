@@ -1,11 +1,10 @@
 package com.c195_software_ii__advanced_java_concepts_pa.Models;
 
-
 /**
  * Class for creating User objects.
  * This is for the purpose of logging into the application and tracking login activity.
- * The userID is necessary to create Appointments
- * Objects will be created as they are retrieved from the Database.
+ * The userID is necessary to create Appointments and is used for reports.
+ * User Objects will be created as they are retrieved from the Database.
  *
  * @author Kyle Heckard
  * @version 1.0
@@ -22,15 +21,21 @@ public class User {
     /* --Constructors-- */
 
     /**
-     * Default constructor for User object
+     * Default constructor for User object.
+     *
      * @param userID   the userID to be set
      * @param userName the userName to be set
      */
     public User(int userID, String userName) {
+
         this.userID   = userID;
         this.userName = userName;
     }
 
+    /**
+     * Overloaded constructor for User object without the userName member.
+     * @param userID the userID to be set
+     */
     public User(int userID) {
         this.userID = userID;
     }

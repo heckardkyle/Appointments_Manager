@@ -4,8 +4,9 @@ import java.time.ZonedDateTime;
 
 /**
  * Class for creating Appointment objects.
- * Appointment objects are used for displaying in a tableview on the appointments screen for user to view.
- * Appointment objects require a customerID from the Customer Class and the userID from the User Class.
+ * Appointment objects are used for displaying in a tableview on the appointments screen for user to view, as well
+ * as extensively used for Reports. Appointment objects require a customerID from the Customer Class, a userID
+ * from the User Class, and a contactID from the Contact Class.
  * Appointment objects will be created as they are retrieved from the database and can be used to update the
  * database as well as be deleted from the database. The appointments for a specific customer must be deleted
  * before said Customer can be deleted.
@@ -14,6 +15,7 @@ import java.time.ZonedDateTime;
  * @version 1.0
  * @see User
  * @see Customer
+ * @see Contact
  * @see com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl
  */
 public class Appointment {
@@ -35,6 +37,7 @@ public class Appointment {
 
     /**
      * Default Constructor for Appointment objects
+     *
      * @param appointmentID the appointmentID to be set
      * @param title         the appointment title to be set
      * @param description   the appointment description to be set
@@ -46,7 +49,9 @@ public class Appointment {
      * @param userID        the associated userID to be set
      * @param contactID     the associated contactID to be set
      */
-    public Appointment(int appointmentID, String title, String description, String location, String type, ZonedDateTime dateTimeStart, ZonedDateTime dateTimeEnd, int customerID, int userID, int contactID) {
+    public Appointment(int appointmentID, String title, String description, String location, String type,
+                       ZonedDateTime dateTimeStart, ZonedDateTime dateTimeEnd, int customerID, int userID, int contactID) {
+
         this.appointmentID = appointmentID;
         this.title         = title;
         this.description   = description;
@@ -61,43 +66,43 @@ public class Appointment {
 
     /* --Getters-- */
 
-    /** Gets appointmentID.
+    /** Gets the appointmentID.
      *  @return <code>appointmentID</code> */
     public int getAppointmentID() { return appointmentID; }
 
-    /** Gets appointment title.
+    /** Gets the appointment title.
      *  @return <code>title</code> */
     public String getTitle() { return title; }
 
-    /** Gets appointment description.
+    /** Gets the appointment description.
      *  @return <code>description</code> */
     public String getDescription() { return description; }
 
-    /** Gets appointment location.
+    /** Gets the appointment location.
      *  @return <code>location</code> */
     public String getLocation() { return location; }
 
-    /** Gets appointment type.
+    /** Gets the appointment type.
      *  @return <code>type</code> */
     public String getType() { return type; }
 
-    /** Gets appointment startTime.
+    /** Gets the appointment startTime.
      *  @return <code>startTime</code> */
     public ZonedDateTime getDateTimeStart() { return dateTimeStart; }
 
-    /** Gets appointment endTime.
+    /** Gets the appointment endTime.
      *  @return <code>endTime</code> */
     public ZonedDateTime getDateTimeEnd() { return dateTimeEnd; }
 
-    /** Gets customerID associated with the appointment.
+    /** Gets the customerID associated with the appointment.
      *  @return <code>customerID</code> */
     public int getCustomerID() { return customerID; }
 
-    /** Gets userID associated with the appointment.
+    /** Gets the userID associated with the appointment.
      *  @return <code>userID</code> */
     public int getUserID() { return userID; }
 
-    /** Gets contactID associated with the appointment.
+    /** Gets the contactID associated with the appointment.
      *  @return <code>contactID</code> */
     public int getContactID() { return contactID; }
 
@@ -124,11 +129,11 @@ public class Appointment {
     public void setType(String type) { this.type = type; }
 
     /** Sets the appointment startTime.
-     *  @param dateTimeStart the appointment start time to be set */
+     *  @param dateTimeStart the appointment startTime to be set */
     public void setDateTimeStart(ZonedDateTime dateTimeStart) { this.dateTimeStart = dateTimeStart; }
 
     /** Sets the appointment endTime.
-     *  @param dateTimeEnd the appointment end time to be set */
+     *  @param dateTimeEnd the appointment endTime to be set */
     public void setDateTimeEnd(ZonedDateTime dateTimeEnd) { this.dateTimeEnd = dateTimeEnd; }
 
     /** Sets the customerID associated with the appointment.

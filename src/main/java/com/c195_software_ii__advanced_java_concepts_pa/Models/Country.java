@@ -2,8 +2,8 @@ package com.c195_software_ii__advanced_java_concepts_pa.Models;
 
 /**
  * Class for creating Country Objects.
- * Country Objects are used for choice boxes when adding and updating customers. The Country Object
- * is necessary for dictating which FirstLevelDivisions appear in the Division Choice Box.
+ * Country Objects are used for ComboBoxes when adding and updating customers. The Country Object
+ * is necessary for dictating which FirstLevelDivisions appear in the Division ComboBox.
  *
  * @author Kyle Heckard
  * @version 1.0
@@ -25,6 +25,7 @@ public class Country {
      * @param countryName the countryName to be set
      */
     public Country (int countryID, String countryName) {
+
         this.countryID   = countryID;
         this.countryName = countryName;
     }
@@ -40,7 +41,7 @@ public class Country {
     public String getCountryName() { return countryName; }
 
     /**
-     * Used in the CustomerController for the Country ComboBox to display the countryNames
+     * Used for ComboBoxes to display the countryNames
      * @return <code>countryName</code>
      */
     public String toString() { return countryName; }

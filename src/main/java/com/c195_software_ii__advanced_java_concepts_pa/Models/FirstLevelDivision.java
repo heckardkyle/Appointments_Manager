@@ -2,9 +2,9 @@ package com.c195_software_ii__advanced_java_concepts_pa.Models;
 
 /**
  * Class for creating FirstLevelDivision Objects.
- * FirstLevelDivision Objects are using for choice boxes when adding and updating customers. The FirstLevelDivision
- * objects that appear in the choice box are dictated by which Country is selected and are related by their
- * countryID.
+ * FirstLevelDivision Objects are used for ComboBoxes when adding and updating customers and is displayed in the
+ * Customer TableView. The FirstLevelDivision objects that appear in the ComboBox are dictated by which Country is
+ * selected and are related by their countryID.
  *
  * @author Kyle Heckard
  * @version 1.0
@@ -23,11 +23,13 @@ public class FirstLevelDivision {
 
     /**
      * Default Constructor for the FirstLevelDivision Object.
+     *
      * @param divisionID   The divisionID to be set.
      * @param divisionName The divisionName to be set.
      * @param countryID    The associated countryID to be set.
      */
     public FirstLevelDivision (int divisionID, String divisionName, int countryID) {
+
         this.divisionID   = divisionID;
         this.divisionName = divisionName;
         this.countryID    = countryID;
@@ -47,23 +49,21 @@ public class FirstLevelDivision {
      *  @return <code>countryID</code> */
     public int getCountryID() { return countryID; }
 
-    /**
-     * Used in the CustomerController for the Division ComboBox to display the divisionNames
-     * @return <code>divisionName</code>
-     */
+    /** Used for Division ComboBoxes to display the divisionNames
+     *  @return <code>divisionName</code> */
     public String toString() { return divisionName; }
 
     /* --Setters-- */
 
     /** Sets the divisionID.
-     *  @param divisionID */
+     *  @param divisionID the divisionID to be set */
     public void setDivisionID(int divisionID) { this.divisionID = divisionID; }
 
     /** Sets the divisionName.
-     *  @param divisionName */
+     *  @param divisionName the divisionName to be set */
     public void setDivisionName(String divisionName) { this.divisionName = divisionName; }
 
-    /** Sets the division's countryID.
-     *  @param countryID */
+    /** Sets the division's associated countryID.
+     *  @param countryID the countryID to associate */
     public void setCountryID(int countryID) { this.countryID = countryID; }
 }
