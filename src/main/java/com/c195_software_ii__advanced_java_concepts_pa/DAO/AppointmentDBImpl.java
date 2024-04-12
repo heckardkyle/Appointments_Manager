@@ -37,13 +37,16 @@ public class AppointmentDBImpl {
      */
     public static ObservableList<Appointment> getAllAppointments() throws SQLException {
         try {
+            // Setup Select query, ObservableList, then execute query
             String sqlSelect = "SELECT * FROM appointments"; // Query
-            ObservableList<Appointment> allAppointments = FXCollections.observableArrayList(); // Table for storing Appointment objects.
-            allAppointments.clear(); // clear table, prevents potential duplication
+            ObservableList<Appointment> allAppointments = FXCollections.observableArrayList(); // List for storing Appointment objects.
+            allAppointments.clear(); // clear list, prevents potential duplication
             preparedStatement = JDBC.connection.prepareStatement(sqlSelect);
             result = preparedStatement.executeQuery();
 
+            // Retrieve appointments, create Appointment Objects, and store in ObservableList
             while (result.next()) { // For each result in query
+
                 // Store each value from result
                 int           appointmentID = result.getInt      ("Appointment_ID");
                 String        title         = result.getString   ("Title");
@@ -60,9 +63,10 @@ public class AppointmentDBImpl {
                 appointment = new Appointment(appointmentID, title, description, location, type, dateTimeStart, dateTimeEnd, customerID, userID, contactID);
                 allAppointments.add(appointment);
             }
+            // Return ObservableList
             return allAppointments;
         }
-        // return null upon exception
+        // return null upon exception or if nothing found
         catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
@@ -84,15 +88,16 @@ public class AppointmentDBImpl {
     public static void createAppointment(int appointmentID, String title, String description, String location, String type,
                                             ZonedDateTime start, ZonedDateTime end, int customerID, int userID, int contactID) {
         try {
+            // Setup Timestamp Conversions
             Timestamp startStamp = Timestamp.valueOf(start.toLocalDateTime());
             Timestamp endStamp   = Timestamp.valueOf(end  .toLocalDateTime());
 
             // Prepare Insert Query
-            String sqlCreate = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) "
+            String sqlInsert = "INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             // Fill values in query using arguments
-            preparedStatement = JDBC.connection.prepareStatement(sqlCreate);
+            preparedStatement = JDBC.connection.prepareStatement(sqlInsert);
             preparedStatement.setInt      (1,  appointmentID);
             preparedStatement.setString   (2,  title);
             preparedStatement.setString   (3,  description);
@@ -128,6 +133,7 @@ public class AppointmentDBImpl {
     public static void updateAppointment(int appointmentID, String title, String description, String location, String type,
                                          ZonedDateTime start, ZonedDateTime end, int customerID, int userID, int contactID) {
         try {
+            // Setup Timestamp Conversions
             Timestamp startStamp = Timestamp.valueOf(start.toLocalDateTime());
             Timestamp endStamp   = Timestamp.valueOf(end.toLocalDateTime());
 

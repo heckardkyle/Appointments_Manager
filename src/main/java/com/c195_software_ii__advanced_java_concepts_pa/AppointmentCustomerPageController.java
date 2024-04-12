@@ -427,7 +427,7 @@ public class AppointmentCustomerPageController implements Initializable {
 
             reportsAppointmentList.addAll(AppointmentDBImpl.getAllAppointments());
 
-            reportsUserList.addAll(UserDBImpl.getAllUsers());
+            reportsUserList.addAll(UserDBImpl.getAllUserIDs());
             for (User user : reportsUserList) {
                 comboBoxList1.add(String.valueOf(user.getUserID()));
             }

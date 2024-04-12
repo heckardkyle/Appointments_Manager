@@ -11,7 +11,7 @@ import java.sql.SQLException;
 /**
  * Database Access Object for FirstLevelDivision Queries.
  * FirstLevelDivisions are fetched form the database and turned into FirstLevelDivision Objects for use in
- * choice boxes when adding or updating a Customer.
+ * ComboBoxes when adding or updating a Customer, and for displaying in TableViews.
  *
  * @author Kyle Heckard
  * @version 1.0
@@ -33,13 +33,16 @@ public class FirstLevelDivisionDBImpl {
      */
     public static ObservableList<FirstLevelDivision> getFirstLevelDivisions() throws SQLException {
         try {
+            // Setup Select query, ObservableList, then execute
             String sqlSelect = "SELECT * FROM first_level_divisions"; // Query
-            ObservableList<FirstLevelDivision> divisions = FXCollections.observableArrayList(); // Table for storing FirstLevelDivision Objects
-            divisions.clear(); // Clear table, prevents potential duplicates
+            ObservableList<FirstLevelDivision> divisions = FXCollections.observableArrayList(); // List for storing FirstLevelDivision Objects
+            divisions.clear(); // Clear list, prevents potential duplicates
             preparedStatement = JDBC.connection.prepareStatement(sqlSelect);
             result = preparedStatement.executeQuery();
 
+            // Retrieve results, Create FirstLevelDivision Objects, then store in ObservableList
             while (result.next()) { // For each result in query
+
                 // Store each value from result
                 int    divisionID   = result.getInt   ("Division_ID");
                 String divisionName = result.getString("Division");
@@ -49,11 +52,11 @@ public class FirstLevelDivisionDBImpl {
                 division = new FirstLevelDivision(divisionID, divisionName, countryID);
                 divisions.add(division);
             }
+            // return ObservableList
             return divisions;
         }
-        // return null upon exception
+        // return null upon exception or if no results
         catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
-
 }

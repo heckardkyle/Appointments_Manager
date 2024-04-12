@@ -3,7 +3,7 @@ package com.c195_software_ii__advanced_java_concepts_pa.DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-/**
+ /*
  * Retrieved from the WGU CI Software Team Resource C195 Code Repository and amended for the
  * purposes of this project.
  */

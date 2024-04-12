@@ -18,7 +18,6 @@ import java.sql.SQLException;
  * @version 1.0
  * @see Customer
  */
-
 public class CustomerDBImpl {
 
     static PreparedStatement preparedStatement;
@@ -35,13 +34,16 @@ public class CustomerDBImpl {
      */
     public static ObservableList<Customer> getAllCustomers() throws SQLException {
         try {
+            // Setup Select query, ObservableList, then execute
             String sqlSelect = "SELECT * FROM customers"; // Query
-            ObservableList<Customer> allCustomers = FXCollections.observableArrayList(); // Table for storing Customer objects.
-            allCustomers.clear(); // Clear table, prevents potential duplication
+            ObservableList<Customer> allCustomers = FXCollections.observableArrayList(); // List for storing Customer objects.
+            allCustomers.clear(); // Clear list, prevents potential duplication
             preparedStatement = JDBC.connection.prepareStatement(sqlSelect);
             result = preparedStatement.executeQuery();
 
+            // Retrieve results, create Customer Objects, and store in ObservableList
             while (result.next()) { // For each result in query
+
                 // Store each value from result
                 int    customerID   = result.getInt   ("Customer_ID");
                 String customerName = result.getString("Customer_Name");
@@ -54,9 +56,10 @@ public class CustomerDBImpl {
                 customer = new Customer(customerID, customerName, address, postalCode, phone, divisionID);
                 allCustomers.add(customer);
             }
+            // return ObservableList
             return allCustomers;
         }
-        // return null upon exception
+        // return null upon exception or if no results
         catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
@@ -75,11 +78,11 @@ public class CustomerDBImpl {
                                       String phone, int divisionID) {
         try {
             // Prepare Insert Query
-            String sqlCreate = "INSERT INTO customers (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID) "
+            String sqlInsert = "INSERT INTO customers (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
 
             // Fill values in query using arguments
-            preparedStatement = JDBC.connection.prepareStatement(sqlCreate);
+            preparedStatement = JDBC.connection.prepareStatement(sqlInsert);
             preparedStatement.setInt   (1, customerID);
             preparedStatement.setString(2, customerName);
             preparedStatement.setString(3, address);
@@ -97,12 +100,12 @@ public class CustomerDBImpl {
      * Updates a Customer in the database.
      * The Customer to update is located using the customerID.
      *
-     * @param customerID The customerID to update
+     * @param customerID   The customerID to update
      * @param customerName The customerName to set
-     * @param address The customer address to set
-     * @param postalCode The customer postalCode to set
-     * @param phone The customer phone to set
-     * @param divisionID The customer divisionID to set
+     * @param address      The customer address to set
+     * @param postalCode   The customer postalCode to set
+     * @param phone        The customer phone to set
+     * @param divisionID   The customer divisionID to set
      */
     public static void updateCustomer(int customerID, String customerName, String address, String postalCode,
                                       String phone, int divisionID) {

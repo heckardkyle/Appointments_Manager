@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 /**
  * Database Access Object for Country Queries.
- * Countries are fetched from database and turned into Country Objects for use in choice boxes when adding or
+ * Countries are fetched from database and turned into Country Objects for use in ComboBoxes when adding or
  * updating a Customer.
  *
  * @author Kyle Heckard
@@ -33,13 +33,16 @@ public class CountryDBImpl {
      */
     public static ObservableList<Country> getCountries() throws SQLException {
         try {
+            // Setup Select query, ObservableList, then execute
             String sqlSelect = "SELECT * FROM countries"; // Query
-            ObservableList<Country> countries = FXCollections.observableArrayList(); // Table for storing Country Objects
-            countries.clear(); // Clear table, prevents potential duplicates
+            ObservableList<Country> countries = FXCollections.observableArrayList(); // List for storing Country Objects
+            countries.clear(); // Clear list, prevents potential duplicates
             preparedStatement = JDBC.connection.prepareStatement(sqlSelect);
             result = preparedStatement.executeQuery();
 
+            // Retrieve results, create Country Objects, and store in ObservableList
             while (result.next()) { // For each result in query
+
                 // Store each value from result
                 int    countryID   = result.getInt   ("Country_ID");
                 String countryName = result.getString("Country");
@@ -48,11 +51,11 @@ public class CountryDBImpl {
                 country = new Country(countryID, countryName);
                 countries.add(country);
             }
+            // return ObservableList
             return countries;
         }
-        // return null upon exception
+        // return null upon exception or no results
         catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
-
 }
