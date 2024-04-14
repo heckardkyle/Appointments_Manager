@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  * @author Kyle Heckard
  * @version 1.0
  */
-public class AppointmentScheduler extends Application {
+public class AppointmentManager extends Application {
 
     /**
      * Starts application.
@@ -28,7 +28,7 @@ public class AppointmentScheduler extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(AppointmentScheduler.class.getResource("UserLoginForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(AppointmentManager.class.getResource("UserLoginForm.fxml"));
         ResourceBundle rb = ResourceBundle.getBundle("UserLogin", Locale.getDefault());
         Scene scene = new Scene(fxmlLoader.load(), 400, 400);
         stage.setTitle(rb.getString("title"));

@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -146,6 +147,13 @@ public class AppointmentCustomerPageController implements Initializable {
         monthlyViewButton.setSelected(true); // Prevents button from being un-clicked
         appointmentTableView.setItems(monthlyTableAppointments);
         appointmentTableView.refresh();
+
+        // Get Month and year to display on label
+        String labelMonth = LocalDate.parse(datePicker.getEditor().getText(), datePickerFormat).getMonth().toString();
+        int    labelYear  = LocalDate.parse(datePicker.getEditor().getText(), datePickerFormat).getYear();
+
+        // Assign String to label
+        weekMonthLabel.setText(labelMonth + " " + labelYear);
     }
 
     /**
@@ -156,6 +164,17 @@ public class AppointmentCustomerPageController implements Initializable {
         weeklyViewButton.setSelected(true); // Prevents button from being un-clicked
         appointmentTableView.setItems(weeklyTableAppointments);
         appointmentTableView.refresh();
+
+        // Get day of week of date picker date
+        LocalDate datePickerDate = LocalDate.parse(datePicker.getEditor().getText(),datePickerFormat);
+        int dayOfWeek = (int) WeekFields.SUNDAY_START.dayOfWeek().getFrom(datePickerDate);
+
+        // Find start of week and end of week dates
+        String firstDayOfWeek = ChronoUnit.DAYS.addTo(datePickerDate, ((-1) * (dayOfWeek - 1))).format(datePickerFormat);
+        String lastDayOfWeek = ChronoUnit.DAYS.addTo(datePickerDate, (7 - dayOfWeek)).format(datePickerFormat);
+
+        // Assign String to label
+        weekMonthLabel.setText(firstDayOfWeek + " - " + lastDayOfWeek);
     }
 
     /**
@@ -197,11 +216,29 @@ public class AppointmentCustomerPageController implements Initializable {
         // if monthly button is selected, display appointments by month
         if (monthlyViewButton.isSelected()) {
             appointmentTableView.setItems(monthlyTableAppointments);
+
+            // Get Month and year to display on label
+            String labelMonth = LocalDate.parse(datePicker.getEditor().getText(), datePickerFormat).getMonth().toString();
+            int    labelYear  = LocalDate.parse(datePicker.getEditor().getText(), datePickerFormat).getYear();
+
+            // Assign String to label
+            weekMonthLabel.setText(labelMonth + " " + labelYear);
         }
 
         // if weekly button is selected, display appointments by week
         if (weeklyViewButton.isSelected() ) {
             appointmentTableView.setItems(weeklyTableAppointments);
+
+            // Get day of week of date picker date
+            LocalDate datePickerDate = LocalDate.parse(datePicker.getEditor().getText(),datePickerFormat);
+            int dayOfWeek = (int) WeekFields.SUNDAY_START.dayOfWeek().getFrom(datePickerDate);
+
+            // Find start of week and end of week dates
+            String firstDayOfWeek = ChronoUnit.DAYS.addTo(datePickerDate, ((-1) * (dayOfWeek - 1))).format(datePickerFormat);
+            String lastDayOfWeek = ChronoUnit.DAYS.addTo(datePickerDate, (7 - dayOfWeek)).format(datePickerFormat);
+
+            // Assign String to label
+            weekMonthLabel.setText(firstDayOfWeek + " - " + lastDayOfWeek);
         }
 
         // refresh TableView
@@ -933,6 +970,13 @@ public class AppointmentCustomerPageController implements Initializable {
 
             // Set date picker to today's date.
             datePicker.getEditor().setText(LocalDate.now(ZoneId.systemDefault()).format(datePickerFormat));
+
+            // Get Month and year to display on label
+            String labelMonth = LocalDate.parse(datePicker.getEditor().getText(), datePickerFormat).getMonth().toString();
+            int    labelYear  = LocalDate.parse(datePicker.getEditor().getText(), datePickerFormat).getYear();
+
+            // Assign String to label
+            weekMonthLabel.setText(labelMonth + " " + labelYear);
 
             // Clear appointments list then retrieve appointments
             appointmentList.clear();
