@@ -24,16 +24,23 @@ import java.util.ResourceBundle;
 
 import static com.c195_software_ii__advanced_java_concepts_pa.Utilities.ShowAlert.showAlert;
 
+/**
+ * UserLoginForm Page Controller.
+ * Starting window of application for User to Log in to application.
+ *
+ * @author Kyle Heckard
+ * @version 1.0
+ */
 public class UserLoginFormController implements Initializable {
 
-    /* Stage Declarations */
+    /* --Stage Declarations-- */
     Stage  stage;
     Parent scene;
 
-    /* Language Resource Bundle Declarations */
+    /* --Language Resource Bundle-- */
     ResourceBundle rb;
 
-    /* User Login Page FXML Declarations */
+    /* --UserLoginForm FXMLs-- */
     @FXML private Label         titleLabel;
     @FXML private Label         userloginLabel;
     @FXML private Label         timezoneLabel;
@@ -42,6 +49,11 @@ public class UserLoginFormController implements Initializable {
     @FXML private Button        signinButton;
 
     /**
+     * Verifies User login info and takes user to main page of application.
+     * Each login attempt is login attempt is logged unless one of the text fields are empty. If the User successfully
+     * logs into the application, an alert is shown of any appointments upcoming within 15 minutes of login.
+     * This method also handles application closure if the Red X button is pressed.
+     *
      * @param event signin Button pressed
      * @throws Exception Exceptions thrown for failed userName or password entries
      */
@@ -50,9 +62,9 @@ public class UserLoginFormController implements Initializable {
         try {
             // throw exception if username or password is empty
             if (usernameTextField.getText().isEmpty()) { throw new UsernameEmptyException(); }
-            if (passwordField.getText().isEmpty()) { throw new PasswordEmptyException(); }
+            if (passwordField    .getText().isEmpty()) { throw new PasswordEmptyException(); }
 
-            // Checks if username and password are valid
+            // If Username and Password is valid
             if (UserDBImpl.getUser(usernameTextField.getText(), passwordField.getText()) != null) {
 
                 // Log successful login
@@ -67,20 +79,25 @@ public class UserLoginFormController implements Initializable {
                 stage.setScene(new Scene(scene));
                 stage.show();
 
+                // ------------------------------------- //
+                // Because this page is the Parent scene //
+                // ------------------------------------- //
+
                 // After sign on, prompts user to confirm exit when X button is pressed.
                 stage.setOnCloseRequest(event1 -> {
+
                     // Prompt user with confirmation box
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, rb.getString("exitPressed"));
 
                     // Wait for response
                     Optional<ButtonType> result = alert.showAndWait();
 
-                    // If ok, exit application
+                    // If user selects ok, close connection and exit application
                     if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
                         JDBC.closeConnection();
                         System.exit(0);
                     }
-                    // Prevent Exiting Application
+                    // If user selects cancel
                     else {
                         throw new RuntimeException("Cancel Application Closure");
                     }
@@ -91,10 +108,11 @@ public class UserLoginFormController implements Initializable {
         }
         // catch block for this function's Exceptions
         catch (UsernameEmptyException | PasswordEmptyException | IncorrectCredentialsException | RuntimeException e) {
-            // alert user of empty username
+
+            // alert user of empty username text field
             if (e instanceof UsernameEmptyException) { showAlert(rb.getString("loginError"), rb.getString("usernameEmpty")); }
 
-            // alert user of empty password
+            // alert user of empty password field
             if (e instanceof PasswordEmptyException) { showAlert(rb.getString("loginError"), rb.getString("passwordEmpty")); }
 
             // alert user of invalid credentials and log activity
@@ -109,7 +127,7 @@ public class UserLoginFormController implements Initializable {
 
 
     /**
-     * Initializes Stage and Scene.
+     * Initializes Scene.
      * Detects System language and translates text boxes and labels.
      * @param url
      * @param resourceBundle
@@ -117,12 +135,13 @@ public class UserLoginFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Translates all visible text for the User based on Locale.
         rb = ResourceBundle.getBundle("UserLogin", Locale.getDefault());
-        titleLabel.setText(rb.getString("title"));
-        userloginLabel.setText(rb.getString("userLogin"));
-        timezoneLabel.setText(rb.getString("timezone") + ": [" + ZoneId.systemDefault() + "]");
+        titleLabel       .setText      (rb.getString("title"));
+        userloginLabel   .setText      (rb.getString("userLogin"));
+        timezoneLabel    .setText      (rb.getString("timezone") + ": [" + ZoneId.systemDefault() + "]");
         usernameTextField.setPromptText(rb.getString("username"));
-        passwordField.setPromptText(rb.getString("password"));
-        signinButton.setText(rb.getString("signin"));
+        passwordField    .setPromptText(rb.getString("password"));
+        signinButton     .setText      (rb.getString("signin"));
     }
 }

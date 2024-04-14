@@ -10,10 +10,19 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Starts AppointmentScheduler application.
+ * Opens a connection to the database and opens a window on the UserLogin Page.
+ * Closes connection to database when the application is closed.
+ *
+ * @author Kyle Heckard
+ * @version 1.0
+ */
 public class AppointmentScheduler extends Application {
 
     /**
-     * Starts application
+     * Starts application.
+     * Opens a window on the UserLoginForm page.
      * @param stage to set up scene
      * @throws IOException Generic exception
      */

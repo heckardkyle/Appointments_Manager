@@ -26,17 +26,23 @@ import java.util.ResourceBundle;
 
 import static com.c195_software_ii__advanced_java_concepts_pa.Utilities.ShowAlert.showAlert;
 
+/**
+ * Customer page for updating and creating new appointments.
+ *
+ * @author Kyle Heckard
+ * @version 1.0
+ */
 public class CustomerController implements Initializable {
 
     /* --Scene Declarations-- */
     Stage  stage;
     Parent scene;
 
-    /* --ObservableList Declarations-- */
+    /* --ObservableLists-- */
     ObservableList<Country>            countryList  = FXCollections.observableArrayList();
     ObservableList<FirstLevelDivision> divisionList = FXCollections.observableArrayList();
 
-    // Declare if customer is being updated
+    /* --Booleans-- */
     Boolean updatingCustomer = false;
 
     /* --FXML IDs-- */
@@ -45,15 +51,15 @@ public class CustomerController implements Initializable {
     @FXML private TextField                    customerNameTextField;
     @FXML private TextField                    phoneNumberTextField;
     @FXML private TextField                    addressTextField;
+    @FXML private TextField                    postalCodeTextField;
     @FXML private ComboBox<Country>            countryComboBox;
     @FXML private ComboBox<FirstLevelDivision> divisionComboBox;
-    @FXML private TextField                    postalCodeTextField;
     @FXML private Button                       cancelButton;
     @FXML private Button                       saveCustomerButton;
 
     /**
      * Finds the next available customerID.
-     * @return Next available <code>customerID</code>
+     * @return <code>newCustomerID</code>
      * @throws SQLException
      */
     public int getAvailableCustomerID() throws SQLException {
@@ -110,23 +116,23 @@ public class CustomerController implements Initializable {
      * @param customer the customer to update
      */
     public void sendCustomer (Customer customer) {
-        // Fill field with sent customer's info.
-        customerIDTextField.setText(String.valueOf(customer.getCustomerID()));
+        // Fill fields with sent customer's info.
+        customerIDTextField  .setText(String.valueOf(customer.getCustomerID()));
         customerNameTextField.setText(customer.getCustomerName());
-        phoneNumberTextField.setText(customer.getPhoneNumber());
-        addressTextField.setText(customer.getAddress());
-        divisionComboBox.getSelectionModel().select(selectFirstLevelDivision(customer));
-        countryComboBox.getSelectionModel().select(selectCountry(divisionComboBox.getSelectionModel().getSelectedItem()));
-        postalCodeTextField.setText(customer.getPostalCode());
+        phoneNumberTextField .setText(customer.getPhoneNumber());
+        addressTextField     .setText(customer.getAddress());
+        divisionComboBox     .getSelectionModel().select(selectFirstLevelDivision(customer));
+        countryComboBox      .getSelectionModel().select(selectCountry(divisionComboBox.getSelectionModel().getSelectedItem()));
+        postalCodeTextField  .setText(customer.getPostalCode());
 
+        // Set up ComboBox
         divisionComboBox.setItems(divisionList.filtered(firstLevelDivision ->
                 firstLevelDivision.getCountryID() == countryComboBox.getSelectionModel().getSelectedItem().getCountryID()));
 
         // Change page to update customer mode
         updatingCustomer = true;
-
-        divisionComboBox.setDisable(false);
-        customerPageLabel.setText("Update Customer");
+        divisionComboBox  .setDisable(false);
+        customerPageLabel .setText("Update Customer");
         saveCustomerButton.setText("Update Customer");
     }
 
@@ -207,10 +213,12 @@ public class CustomerController implements Initializable {
 
             // Create Customer or Update Customer if in page is in update mode.
             if (updatingCustomer) {
-                CustomerDBImpl.updateCustomer(newCustomerID, newCustomerName, newCustomerAddress, newCustomerPostalCode, newCustomerPhone, newCustomerFLDivision);
+                CustomerDBImpl.updateCustomer(newCustomerID, newCustomerName, newCustomerAddress,
+                        newCustomerPostalCode, newCustomerPhone, newCustomerFLDivision);
             }
             else { // Create new customer
-                CustomerDBImpl.createCustomer(newCustomerID, newCustomerName, newCustomerAddress, newCustomerPostalCode, newCustomerPhone, newCustomerFLDivision);
+                CustomerDBImpl.createCustomer(newCustomerID, newCustomerName, newCustomerAddress,
+                        newCustomerPostalCode, newCustomerPhone, newCustomerFLDivision);
             }
 
             // Send user to AppointmentCustomerPage
