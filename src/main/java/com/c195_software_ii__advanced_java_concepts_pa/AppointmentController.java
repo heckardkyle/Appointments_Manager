@@ -4,16 +4,12 @@ import com.c195_software_ii__advanced_java_concepts_pa.DAO.AppointmentDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.ContactDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.CustomerDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
-import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.EndBeforeStartException;
-import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.EmptyFieldsException;
-import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.NotValidDateException;
-import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.UserIDNotValidException;
-import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.AppointmentOverlapException;
+import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.*;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Appointment;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Business;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Contact;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Customer;
-
+import com.c195_software_ii__advanced_java_concepts_pa.Utilities.AlertInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,13 +24,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static com.c195_software_ii__advanced_java_concepts_pa.Utilities.ShowAlert.showAlert;
 
 /**
  * Appointment page for updating and creating new appointments.
@@ -81,6 +78,14 @@ public class AppointmentController implements Initializable {
     @FXML private DatePicker         endDateDatePicker;
     @FXML private Button             saveAppointmentButton;
     @FXML private Button             cancelButton;
+
+    /* --Lambdas-- */
+    AlertInterface warningAlert = (title, message) -> {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    };
 
     /**
      * Finds the next available appointmentID.
@@ -278,7 +283,7 @@ public class AppointmentController implements Initializable {
                     boolean predicate3 = startTime2.isEqual(endTime1) || startTime2.isAfter(endTime1);
                     boolean predicate4 = endTime2.isAfter(endTime1);
 
-                    // If overlap, throw exception
+                    // If overlapped, throw exception
                     if (!((predicate1 && predicate2) || (predicate3 && predicate4))) {
                         throw new AppointmentOverlapException();
                     }
@@ -307,17 +312,17 @@ public class AppointmentController implements Initializable {
         // If any exceptions are thrown, catch and do not update or create
         catch (Exception e) {
             if (e instanceof EmptyFieldsException) {
-                showAlert("Warning Dialog", "All fields must have a value before continuing."); }
+                warningAlert.showAlert("Warning Dialog", "All fields must have a value before continuing."); }
             if (e instanceof UserIDNotValidException) {
-                showAlert("Warning Dialog", "Not a valid User ID"); }
+                warningAlert.showAlert("Warning Dialog", "Not a valid User ID"); }
             if (e instanceof EndBeforeStartException) {
-                showAlert("Warning Dialog", "Appointment must end after appointment start period"); }
+                warningAlert.showAlert("Warning Dialog", "Appointment must end after appointment start period"); }
             if (e instanceof NotValidDateException) {
-                showAlert("Warning Dialog", "Appointment must take place on a business date"); }
+                warningAlert.showAlert("Warning Dialog", "Appointment must take place on a business date"); }
             if (e instanceof SQLException) {
                 e.printStackTrace(); }
             if (e instanceof AppointmentOverlapException) {
-                showAlert("Warning Dialog", "Appointment overlaps existing appointment");
+                warningAlert.showAlert("Warning Dialog", "Appointment overlaps existing appointment");
             }
         }
     }

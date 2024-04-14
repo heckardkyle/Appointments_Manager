@@ -5,6 +5,7 @@ import com.c195_software_ii__advanced_java_concepts_pa.DAO.UserDBImpl;
 import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.IncorrectCredentialsException;
 import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.PasswordEmptyException;
 import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.UsernameEmptyException;
+import com.c195_software_ii__advanced_java_concepts_pa.Utilities.AlertInterface;
 import com.c195_software_ii__advanced_java_concepts_pa.Utilities.Log_Activity;
 import com.c195_software_ii__advanced_java_concepts_pa.Utilities.LoginAlert;
 import javafx.event.ActionEvent;
@@ -21,8 +22,6 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static com.c195_software_ii__advanced_java_concepts_pa.Utilities.ShowAlert.showAlert;
 
 /**
  * UserLoginForm Page Controller.
@@ -47,6 +46,14 @@ public class UserLoginFormController implements Initializable {
     @FXML private TextField     usernameTextField;
     @FXML private PasswordField passwordField;
     @FXML private Button        signinButton;
+
+    /* --Lambdas-- */
+    AlertInterface warningAlert = (title, message) -> {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    };
 
     /**
      * Verifies User login info and takes user to main page of application.
@@ -110,15 +117,15 @@ public class UserLoginFormController implements Initializable {
         catch (UsernameEmptyException | PasswordEmptyException | IncorrectCredentialsException | RuntimeException e) {
 
             // alert user of empty username text field
-            if (e instanceof UsernameEmptyException) { showAlert(rb.getString("loginError"), rb.getString("usernameEmpty")); }
+            if (e instanceof UsernameEmptyException) { warningAlert.showAlert(rb.getString("loginError"), rb.getString("usernameEmpty")); }
 
             // alert user of empty password field
-            if (e instanceof PasswordEmptyException) { showAlert(rb.getString("loginError"), rb.getString("passwordEmpty")); }
+            if (e instanceof PasswordEmptyException) { warningAlert.showAlert(rb.getString("loginError"), rb.getString("passwordEmpty")); }
 
             // alert user of invalid credentials and log activity
             if (e instanceof IncorrectCredentialsException) {
                 Log_Activity.LogActivity(usernameTextField.getText(), "Invalid Credentials");
-                showAlert(rb.getString("loginError"), rb.getString("incorrectCredentials")); }
+                warningAlert.showAlert(rb.getString("loginError"), rb.getString("incorrectCredentials")); }
 
             // Corrects error that causes unexpected Application Closure
             if (e instanceof RuntimeException) { /* Cancel Exiting Application */ }

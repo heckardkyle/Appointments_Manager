@@ -2,6 +2,8 @@ package com.c195_software_ii__advanced_java_concepts_pa;
 
 import com.c195_software_ii__advanced_java_concepts_pa.DAO.*;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.*;
+import com.c195_software_ii__advanced_java_concepts_pa.Utilities.AlertInterface;
+import com.c195_software_ii__advanced_java_concepts_pa.Utilities.StringInterface;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,16 +21,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.*;
+import java.time.temporal.WeekFields;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static com.c195_software_ii__advanced_java_concepts_pa.Utilities.ShowAlert.showAlert;
 
 /**
  * The Main Form of the application.
@@ -124,6 +123,16 @@ public class AppointmentCustomerPageController implements Initializable {
     @FXML private TableColumn<Appointment,String> reportsTableViewC6;
     @FXML private TableColumn<Appointment,String> reportsTableViewC7;
     @FXML private Button reportsLogoutButton;
+
+    /* --Lambdas-- */
+    AlertInterface informationAlert = (title, message) -> {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    };
+
+    StringInterface totalAppointments = total -> total + " Appointments";
 
     /* ------------------- */
     /* --Appointment Tab-- */
@@ -277,7 +286,7 @@ public class AppointmentCustomerPageController implements Initializable {
             String message = "Cancelled appointment:\n"
                     + "Appointment ID : "  + appointment.getAppointmentID() + "\n"
                     + "Appointment Type: " + appointment.getType();
-            showAlert("Information", message);
+            informationAlert.showAlert("Information", message);
 
             // reset tableview
             updateAppointmentButton.setDisable(true);
@@ -659,12 +668,9 @@ public class AppointmentCustomerPageController implements Initializable {
                     return new SimpleStringProperty(customerIDString);
                 });
 
-                // Create String for Label
-                String reportsTotalLabelString = reportsTableView.getItems().size() + " Appointments";
-
-                // Enable Label and assign String to Label
+                // Enable total appointments label and display total
                 reportsTotalLabel.setVisible(true);
-                reportsTotalLabel.setText(reportsTotalLabelString);
+                reportsTotalLabel.setText(totalAppointments.stringFromInt(reportsTableView.getItems().size()));
             }
 
 
@@ -744,12 +750,9 @@ public class AppointmentCustomerPageController implements Initializable {
                     return new SimpleStringProperty(customerIDString);
                 });
 
-                // Create String for Label
-                String reportsTotalLabelString = reportsTableView.getItems().size() + " Appointments";
-
-                // Enable Label and assign String to Label
+                // Enable total appointments label and display total
                 reportsTotalLabel.setVisible(true);
-                reportsTotalLabel.setText(reportsTotalLabelString);
+                reportsTotalLabel.setText(totalAppointments.stringFromInt(reportsTableView.getItems().size()));
             }
 
 
@@ -807,12 +810,9 @@ public class AppointmentCustomerPageController implements Initializable {
                     return new SimpleStringProperty(customerIDString);
                 });
 
-                // Create String for label
-                String reportsTotalLabelString = reportsTableView.getItems().size() + " Appointments";
-
-                // Enable Label and assign String
+                // Enable total appointments label and display total
                 reportsTotalLabel.setVisible(true);
-                reportsTotalLabel.setText(reportsTotalLabelString);
+                reportsTotalLabel.setText(totalAppointments.stringFromInt(reportsTableView.getItems().size()));
             }
         }
     }
@@ -880,12 +880,9 @@ public class AppointmentCustomerPageController implements Initializable {
                     return new SimpleStringProperty(customerIDString);
                 });
 
-                // Create string for label
-                String reportsTotalLabelString = reportsTableView.getItems().size() + " Appointments";
-
-                // Enable label and assign String
+                // Enable total appointments label and display total
                 reportsTotalLabel.setVisible(true);
-                reportsTotalLabel.setText(reportsTotalLabelString);
+                reportsTotalLabel.setText(totalAppointments.stringFromInt(reportsTableView.getItems().size()));
             }
         }
     }

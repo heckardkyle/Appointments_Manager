@@ -7,6 +7,7 @@ import com.c195_software_ii__advanced_java_concepts_pa.Exceptions.EmptyFieldsExc
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Country;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.Customer;
 import com.c195_software_ii__advanced_java_concepts_pa.Models.FirstLevelDivision;
+import com.c195_software_ii__advanced_java_concepts_pa.Utilities.AlertInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,8 +24,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static com.c195_software_ii__advanced_java_concepts_pa.Utilities.ShowAlert.showAlert;
 
 /**
  * Customer page for updating and creating new appointments.
@@ -56,6 +55,14 @@ public class CustomerController implements Initializable {
     @FXML private ComboBox<FirstLevelDivision> divisionComboBox;
     @FXML private Button                       cancelButton;
     @FXML private Button                       saveCustomerButton;
+
+    /* --Lambdas-- */
+    AlertInterface warningAlert = (title, message) -> {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    };
 
     /**
      * Finds the next available customerID.
@@ -230,7 +237,7 @@ public class CustomerController implements Initializable {
         // Catch Exceptions
         catch (Exception e) {
             if (e instanceof EmptyFieldsException) {
-                showAlert("Warning Dialog", "All fields must have a value before continuing."); }
+                warningAlert.showAlert("Warning Dialog", "All fields must have a value before continuing."); }
         }
     }
 
