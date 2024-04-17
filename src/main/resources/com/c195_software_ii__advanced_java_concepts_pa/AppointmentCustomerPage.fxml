@@ -185,13 +185,13 @@
                                           </HBox>
                                           <TableView fx:id="reportsTableView" prefHeight="413.0" prefWidth="794.0">
                                             <columns>
-                                              <TableColumn fx:id="reportsTableViewC1" prefWidth="125.0" text="C1" visible="false" />
-                                              <TableColumn fx:id="reportsTableViewC2" prefWidth="125.0" text="C2" visible="false" />
-                                                <TableColumn fx:id="reportsTableViewC3" prefWidth="125.0" text="C3" visible="false" />
-                                                <TableColumn fx:id="reportsTableViewC4" prefWidth="125.0" text="C4" visible="false" />
-                                                <TableColumn fx:id="reportsTableViewC5" prefWidth="125.0" text="C5" visible="false" />
-                                                <TableColumn fx:id="reportsTableViewC6" prefWidth="125.0" text="C6" visible="false" />
-                                                <TableColumn fx:id="reportsTableViewC7" prefWidth="125.0" text="C7" visible="false" />
+                                              <TableColumn fx:id="reportsTableViewC1" minWidth="50.0" prefWidth="150.0" text="C1" />
+                                              <TableColumn fx:id="reportsTableViewC2" minWidth="50.0" prefWidth="150.0" text="C2" />
+                                                <TableColumn fx:id="reportsTableViewC3" minWidth="50.0" prefWidth="150.0" text="C3" />
+                                                <TableColumn fx:id="reportsTableViewC4" minWidth="50.0" prefWidth="150.0" text="C4" />
+                                                <TableColumn fx:id="reportsTableViewC5" minWidth="50.0" prefWidth="150.0" text="C5" />
+                                                <TableColumn fx:id="reportsTableViewC6" minWidth="50.0" prefWidth="150.0" text="C6" />
+                                                <TableColumn fx:id="reportsTableViewC7" minWidth="50.0" prefWidth="150.0" text="C7" />
                                             </columns>
                                              <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
