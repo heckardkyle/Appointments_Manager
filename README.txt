@@ -1,3 +1,5 @@
+Developed in my C195 Software II - Advanced Java Concepts course at WGU. This Course Demonstrates my ability to program both develop a GUI in Java and communicate with a database.
+
 Appointment Manager
 
 Created by:
